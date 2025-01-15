@@ -1,39 +1,48 @@
 import Link from "next/link";
+import Image from "next/image";
+import neoticText from "../components/logo/Neotic Text.svg";
 
 export default function Header() {
   return (
     <header className="bg-white shadow-md">
-      <div className="container mx-auto px-6 py-3 flex justify-between items-center">
+      <div className="container mx-auto px-3 py-0 flex justify-between items-center">
         <div className="flex-shrink-0">
-          <Link href="/" className="text-blue-500 text-2xl font-bold">NEOTIC</Link>
+          <Link href="/">
+            <Image
+              priority
+              src={neoticText}
+              alt="Neotic Logo"
+              width={80}
+             />
+          </Link>
         </div>
         <nav className="flex-grow">
-          <ul className="flex justify-center space-x-8">
+          <ul className="flex justify-center space-x-10">
             <li>
               <Link
                 href="/berita"
-                className="text-black text-lg font-semibold hover:text-gray-800 px-3 py-2 rounded">
+                className="text-black text-lg font-semibold hover:text-gray-800 px-3 py-1">
                 Berita
               </Link>
             </li>
             <li>
               <Link
                 href="/portofolio"
-                className="text-black text-lg font-semibold hover:text-gray-800 px-3 py-2 rounded">
+                className="text-black text-lg font-semibold hover:text-gray-800 px-3 py-1">
                 Portofolio
               </Link>
             </li>
             <li>
               <Link
                 href="https://google.com"
-                className="text-black text-lg font-semibold hover:text-gray-800 px-3 py-2 rounded">
+                className="text-black text-lg font-semibold hover:text-gray-800 px-3 py-1">
                 Get In Touch
               </Link>
             </li>
             <li>
               <Link
                 href="/tentang"
-                className="text-black text-lg font-semibold hover:text-gray-800 px-3 py-2 rounded">
+                className="text-black text-lg font-semibold hover:text-gray-800 px-3 py-1">
                 About
               </Link>
             </li>
