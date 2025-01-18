@@ -48,7 +48,7 @@ export default function Footer() {
           <div className="flex flex-col items-center space-y-4">
             <p className="text-black font-semibold text-lg">Social Media</p>
             <div className="flex space-x-4">
-              <Link href="https://linkedin.com/neotic.id">
+              <Link href="https://www.linkedin.com/company/neotic-id/" target="_blank">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-8 w-8"
@@ -59,7 +59,7 @@ export default function Footer() {
                   <path d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5S0 4.881 0 3.5 1.11 1 2.48 1s2.48 1.12 2.48 2.5zM0 8h5v16H0V8zm8.002 0h4.968v2.155c2.096-3.879 11.018-4.166 11.018 3.714V24h-4.988v-8.399c0-5.052-6.029-4.67-6.029 0V24H8.002V8z" />
                 </svg>
               </Link>
-              <Link href="https://instagram.com/neotic.id">
+              <Link href="https://instagram.com/neotic.id" target="_blank">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-8 w-8"
