@@ -6,49 +6,55 @@ import Link from "next/link";
 export default function Footer() {
   return (
     <footer className="bg-white shadow-md">
-      <div className="container mx-auto px-3 py-2 flex justify-between items-center">
-        <div className="flex-shrink-0">
-          <div>
+      <div className="container mx-auto px-3 py-2">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="flex flex-col items-start">
             <Link href="/">
               <Image
                 priority
                 src={neoticBigLogi}
                 alt="Neotic Logo"
                 height={100}
+                className="ml-2"
               />
             </Link>
-            <p className="pl-2 font-semibold">
+            <p className="text-black pl-2 font-semibold mt-2 ml-1.5">
               &quot;Easy to use, Easy to work&quot; <br />
               Dig your knowledge, <br />
               engrave your curiosity with us
             </p>
           </div>
-        </div>
-        <div className="flex-grow">
-          <ul className="flex justify-center space-x-10 text-center">
-            <li>
-              <Link href="/">
-                <Image
-                  src={neoticText}
-                  alt="Neotic Logo"
-                  height={100}
-                />
-              </Link>
-              <Link href="/about" className="text-black hover:text-gray-800 font-semibold">
-                About us
-              </Link>
-              <br />
-              <Link href="https://google.com" className="text-black hover:text-gray-800 font-semibold">
-                Get In Touch
-              </Link>
-            </li>
-          </ul>
-        </div>
-        <div className="flex-shrink-0">
-          <div className="flex flex-col items-center space-y-4">
-            <p className="text-black font-semibold text-lg">Social Media</p>
+          <div className="flex flex-col md:items-center">
+            <Link href="/">
+              <Image 
+                src={neoticText} 
+                alt="Neotic Logo" 
+                height={100} 
+                className="md:ml-5"
+              />
+            </Link>
+            <Link
+              href="/about"
+              className="text-black hover:text-gray-800 font-semibold block ml-3"
+            >
+              About us
+            </Link>
+            <Link
+              href="https://google.com"
+              className="text-black hover:text-gray-800 font-semibold block mt-1 ml-3"
+            >
+              Get In Touch
+            </Link>
+          </div>
+          <div className="flex flex-col items-start md:items-end md:my-auto ml-3">
+            <p className="text-black font-semibold text-lg mb-2">
+              Social Media
+            </p>
             <div className="flex space-x-4">
-              <Link href="https://www.linkedin.com/company/neotic-id/" target="_blank">
+              <Link
+                href="https://www.linkedin.com/company/neotic-id/"
+                target="_blank"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-8 w-8"
