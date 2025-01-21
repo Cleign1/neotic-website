@@ -77,7 +77,7 @@ export default function BeritaPage(): JSX.Element {
   ];
 
   return (
-    <div>
+    <div className="min-h-screen">
       <div className="bg-blue-210  text-center font-semibold text-2xl mt-10 p-4">
         <h1>Berita</h1>
       </div>
