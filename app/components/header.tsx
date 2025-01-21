@@ -41,12 +41,6 @@ export default function Header() {
                 Berita
               </Link>
               <Link
-                href="/program"
-                className="text-black text-base font-semibold hover:text-gray-800 px-3 py-1"
-              >
-                Program
-              </Link>
-              <Link
                 href="/portofolio"
                 className="text-black text-base font-semibold hover:text-gray-800 px-3 py-1"
               >
@@ -83,14 +77,6 @@ export default function Header() {
                 className="text-black text-lg font-semibold hover:text-gray-800 px-3 py-1"
               >
                 Berita
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/program"
-                className="text-black text-lg font-semibold hover:text-gray-800 px-3 py-1"
-              >
-                Program
               </Link>
             </li>
             <li>
