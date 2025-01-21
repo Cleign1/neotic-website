@@ -7,7 +7,7 @@ import Link from "next/link";
 import { JSX } from "react/jsx-runtime";
 
 interface Section {
-  type: "Program" | "Berita";
+  type: "Portofolio" | "Berita";
   title: string;
   imageSrc: StaticImageData;
   description: string;
@@ -16,7 +16,7 @@ interface Section {
 export default function Home(): JSX.Element {
   const sections: Section[] = [
     {
-      type: "Program",
+      type: "Portofolio",
       title: "Our Latest Program",
       imageSrc: neoticlatestprogramImage,
       description:
@@ -43,7 +43,7 @@ export default function Home(): JSX.Element {
                 className="bg-white p-6 rounded-xl flex flex-col items-center hover:shadow-lg justify-center"
               >
                 <Link
-                  href={section.type === "Program" ? "/program" : "/berita"}
+                  href={section.type === "Portofolio" ? "/portofolio" : "/berita"}
                   className="flex flex-col items-center"
                 >
                   <h2 className="text-xl font-semibold mb-4 text-center">
