@@ -65,8 +65,8 @@ export default function PortofolioPage(): JSX.Element {
             <div
               key={index}
               className="grid grid-flow-row auto-rows-max justify-center">
-              <div className="bg-white shadow-md rounded-lg p-8 m-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 ">
+              <div className="bg-white shadow-md rounded-lg p-8 m-4 mb-10">
+                <div className="grid grid-cols-1 md:grid-cols-2">
                   <div className="flex justify-center items-center m-8">
                     <Image
                       src={portoContents.imageSrc}
