@@ -63,13 +63,13 @@ export default function Header() {
         </Sheet>
       </div>
       <div className="container mx-auto px-3 py-4 md:flex justify-between items-center hidden">
-        <div className="flex-shrink-0">
+        <div className="shrink-0">
           <Link href="/">
             <Image priority src={neoticText} alt="Neotic Logo" width={80} />
           </Link>
         </div>
         {/* pc navbar */}
-        <nav className="hidden md:flex flex-grow justify-center">
+        <nav className="hidden md:flex grow justify-center">
           <ul className="flex justify-center space-x-10">
             <li>
               <Link
@@ -105,7 +105,7 @@ export default function Header() {
             </li>
           </ul>
         </nav>
-        <div className="hidden md:flex flex-shrink-0 ">
+        <div className="hidden md:flex shrink-0 ">
           <button className="text-black hover:text-gray-800">
             <svg
               xmlns="http://www.w3.org/2000/svg"
