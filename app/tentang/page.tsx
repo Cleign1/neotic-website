@@ -83,8 +83,12 @@ export default function AboutUs(): JSX.Element {
               {about2.map((section) => (
                 <div key={section.id} className="bg-white p-4 rounded-lg hover:shadow-lg">
                 <h1 className="text-2xl p-4 font-semibold">{section.title}</h1>
-                <ul className="list-disc">
-                <p className="m-10 text-center">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione, accusamus!</p>
+                <ul className="list-disc m-10 pl-5">
+                  {section.content.map((item, index) => (
+                    <li key={index} className="text-justify">
+                      {item}
+                    </li>
+                  ))}
                 </ul>
               </div>
               ))}
