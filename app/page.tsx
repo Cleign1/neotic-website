@@ -174,7 +174,7 @@ export default function Home(): JSX.Element {
                 ></textarea>
                 <button
                   type="submit"
-                  className="bg-blue-600 text-white rounded-md py-3 px-6 hover:bg-blue-700 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
+                  className="bg-blue-600 text-white rounded-md py-3 px-6 hover:bg-blue-700 focus:outline-hidden focus:ring-2 focus:ring-blue-500 cursor-pointer"
                 >
                   Kirim
                 </button>
