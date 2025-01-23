@@ -34,7 +34,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${Interfont.variable} ${Interfont.variable} antialiased bg-gradient-to-b from-[#2F70A1] to-[#8D8E79]`}
+        className={`${Interfont.variable} ${Interfont.variable} antialiased bg-linear-to-b from-[#2F70A1] to-[#8D8E79]`}
       >
         <Header />
         {children}
