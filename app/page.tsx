@@ -150,27 +150,27 @@ export default function Home(): JSX.Element {
                 <input
                   type="text"
                   placeholder="Nama Lengkap"
-                  className="w-full border border-gray-300 rounded-md p-3 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
+                  className="w-full bg-gray-100 border border-gray-300 rounded-md p-3 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
                 />
                 <input
                   type="email"
                   placeholder="Email"
-                  className="w-full border border-gray-300 rounded-md p-3 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
+                  className="w-full bg-gray-100 border border-gray-300 rounded-md p-3 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
                 />
                 <input
                   type="tel"
                   placeholder="Nomor Telepon"
-                  className="w-full border border-gray-300 rounded-md p-3 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
+                  className="w-full bg-gray-100 border border-gray-300 rounded-md p-3 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
                 />
                 <input
                   type="text"
                   placeholder="Judul Pesan"
-                  className="w-full border border-gray-300 rounded-md p-3 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
+                  className="w-full bg-gray-100 border border-gray-300 rounded-md p-3 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
                 />
                 <textarea
                   placeholder="Pesan"
                   rows={4}
-                  className="w-full border border-gray-300 rounded-md p-3 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
+                  className="w-full bg-gray-100 border border-gray-300 rounded-md p-3 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
                 ></textarea>
                 <button
                   type="submit"
