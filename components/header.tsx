@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import neoticText from "../components/logo/Neotic Text.svg";
+import neoticText from "@/components/logo/Neotic Text.svg";
 import { Sheet, SheetTrigger, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 

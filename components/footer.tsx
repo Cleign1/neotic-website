@@ -1,5 +1,5 @@
-import neoticBigLogi from "../components/logo/Neotic_Doang_Big logo.svg";
-import neoticText from "../components/logo/Neotic Text.svg";
+import neoticBigLogi from "@/components/logo/Neotic_Doang_Big logo.svg";
+import neoticText from "@/components/logo/Neotic Text.svg";
 import Image from "next/image";
 import Link from "next/link";
 
