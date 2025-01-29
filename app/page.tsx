@@ -1,7 +1,7 @@
-import neoticlatestnewsImage from "./components/images/neotic-latest news.jpg";
-import neoticlatestprogramImage from "./components/images/neotic_latest program.jpg";
-import revouLogo from "./components/images/P3Limage3Revou.png";
-import dicodingLogo from "./components/images/P3Limage2Dicoding.png";
+import neoticlatestnewsImage from "@/components/images/neotic-latest news.jpg";
+import neoticlatestprogramImage from "@/components/images/neotic_latest program.jpg";
+import revouLogo from "@/components/images/P3Limage3Revou.png";
+import dicodingLogo from "@/components/images/P3Limage2Dicoding.png";
 import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
 import { JSX } from "react/jsx-runtime";
