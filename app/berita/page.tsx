@@ -1,14 +1,14 @@
 import { JSX } from "react/jsx-runtime";
 import Image, { StaticImageData } from "next/image";
-import berita01 from "../components/images/berita/01berita.jpg";
-import berita02 from "../components/images/berita/02berita.jpg";
-import berita03 from "../components/images/berita/03berita.jpg";
-import berita04 from "../components/images/berita/04berita.jpg";
-import berita05 from "../components/images/berita/05berita.jpg";
-import berita06 from "../components/images/berita/06berita.jpg";
-import berita07 from "../components/images/berita/07berita.jpg";
-import berita08 from "../components/images/berita/08berita.jpg";
-import berita09 from "../components/images/berita/09berita.jpg";
+import berita01 from "@/components/images/berita/01berita.jpg";
+import berita02 from "@/components/images/berita/02berita.jpg";
+import berita03 from "@/components/images/berita/03berita.jpg";
+import berita04 from "@/components/images/berita/04berita.jpg";
+import berita05 from "@/components/images/berita/05berita.jpg";
+import berita06 from "@/components/images/berita/06berita.jpg";
+import berita07 from "@/components/images/berita/07berita.jpg";
+import berita08 from "@/components/images/berita/08berita.jpg";
+import berita09 from "@/components/images/berita/09berita.jpg";
 
 interface BeritaContent {
   id: number;
