@@ -75,6 +75,8 @@ export interface User {
   password?: string | null;
 }
 /**
+ * Media yang digunakan di website
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media".
  */
