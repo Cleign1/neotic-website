@@ -1,10 +1,10 @@
 import { JSX } from "react/jsx-runtime";
-import neoticlogobig from "../components/logo/neotic_transparent.svg";
+import neoticlogobig from "@/components/logo/neotic_transparent.svg";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import neoCourse2 from "../components/images/berita/05berita.jpg";
-import neoCourse1 from "../components/images/berita/neocoursebatch1.jpg";
+import neoCourse2 from "@/components/images/berita/05berita.jpg";
+import neoCourse1 from "@/components/images/berita/neocoursebatch1.jpg";
 import { StaticImageData } from "next/image";
 
 interface PortoContent {
