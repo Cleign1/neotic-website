@@ -19,7 +19,6 @@ async function fetchBeritaContents(): Promise<BeritaContent[]> {
     // Fetch data from Payload CMS
     const result = await payload.find({
       collection: "konten-berita",
-      limit: 10, // Limit the number of results to 10
       pagination: false, // Disable pagination
     });
 
