@@ -23,15 +23,15 @@ importers:
       '@payloadcms/storage-s3':
         specifier: ^3.20.0
         version: 3.20.0(payload@3.20.0(graphql@16.10.0)(monaco-editor@0.52.2)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.7.2))
-      '@prisma/client':
-        specifier: 6.2.1
-        version: 6.2.1(prisma@6.2.1)
       '@radix-ui/react-dialog':
         specifier: ^1.1.4
         version: 1.1.4(@types/react-dom@19.0.2(@types/react@19.0.2))(@types/react@19.0.2)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@radix-ui/react-slot':
         specifier: ^1.1.1
         version: 1.1.1(@types/react@19.0.2)(react@19.0.0)
+      '@zapal/payload-lexical-react':
+        specifier: ^1.7.0
+        version: 1.7.0(lexical@0.21.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       canvas:
         specifier: ^3.1.0
         version: 3.1.0
@@ -1894,6 +1894,13 @@ packages:
   '@typescript-eslint/visitor-keys@8.18.2':
     resolution: {integrity: sha512-zORcwn4C3trOWiCqFQP1x6G3xTRyZ1LYydnj51cRnJ6hxBlr/cKPckk+PKPUw/fXmvfKTcw7bwY3w9izgx5jZw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
+  '@zapal/payload-lexical-react@1.7.0':
+    resolution: {integrity: sha512-ikaWTQZ23ZhP4RUmFpqUPXmLS0lFsITC2b/u0+acXtaaeKYNngXcklyBIIA7Pp/8HWQFTA/q1YfKjvFZ77pSvw==}
+    peerDependencies:
+      lexical: ^0.21.0
+      react: ^19.0.0
+      react-dom: ^19.0.0
 
   abab@2.0.6:
     resolution: {integrity: sha512-j2afSsaIENvHZN2B8GOpF566vZ5WVk5opAiMTvWgaQT8DkbOqsTfvNAvHoRGU2zzP8cPoqys+xHTRDWW8L+/BA==}
@@ -6066,6 +6073,7 @@ snapshots:
   '@prisma/client@6.2.1(prisma@6.2.1)':
     optionalDependencies:
       prisma: 6.2.1
+    optional: true
 
   '@prisma/debug@6.2.1': {}
 
@@ -6770,6 +6778,12 @@ snapshots:
     dependencies:
       '@typescript-eslint/types': 8.18.2
       eslint-visitor-keys: 4.2.0
+
+  '@zapal/payload-lexical-react@1.7.0(lexical@0.21.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
+    dependencies:
+      lexical: 0.21.0
+      react: 19.0.0
+      react-dom: 19.0.0(react@19.0.0)
 
   abab@2.0.6: {}
 
