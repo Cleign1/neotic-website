@@ -122,6 +122,7 @@ export interface KontenBerita {
     };
     [k: string]: unknown;
   };
+  shortDescription?: string | null;
   slug: string;
   publishedAt?: string | null;
   updatedAt: string;
@@ -231,6 +232,7 @@ export interface KontenBeritaSelect<T extends boolean = true> {
   judul?: T;
   gambar?: T;
   konten?: T;
+  shortDescription?: T;
   slug?: T;
   publishedAt?: T;
   updatedAt?: T;
