@@ -10,7 +10,7 @@ export default function Header() {
       <div className="md:hidden flex items-center container mx-auto px-3 py-0">
         <Sheet>
           <Link href="/">
-            <Image src={neoticText} alt="Neotic Logo" width={80} />
+            <Image src="https://cdn.ibnukhaidar-pi.com/Neotic%20Text.svg" alt="Neotic Logo" width={80} height={80} />
           </Link>
           <SheetTrigger asChild>
             <Button variant="outline" className="md:hidden ml-auto text-black">
