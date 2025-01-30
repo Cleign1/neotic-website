@@ -2,6 +2,7 @@ import { JSX } from "react/jsx-runtime";
 import Image from "next/image";
 import { getPayload } from "payload";
 import configPromise from '@payload-config'
+import Link from "next/link";
 
 interface BeritaContent {
   id: string;
@@ -44,22 +45,24 @@ export default async function BeritaPage(): Promise<JSX.Element> {
         <h1>Berita</h1>
       </div>
       <div className="bg-blue-210 grid grid-cols-1 md:grid-cols-3 gap-7 mt-10 mb-10 px-8 py-14">
+        <Link href="/berita">
         {beritaContents.map((beritaContent, index) => (
           <div
-            key={index}
-            className="justify-center bg-white p-10 rounded-xl flex flex-col items-center hover:shadow-lg"
+          key={index}
+          className="justify-center bg-white p-10 rounded-xl flex flex-col items-center hover:shadow-lg"
           >
             <h1 className="font-semibold text-2xl">{beritaContent.title}</h1>
             <Image
               src={beritaContent.imageSrc}
               alt={beritaContent.title}
-              width={300}
+              width={200}
               height={200}
               className="m-8"
-            />
+              />
             <p className="text-justify">{beritaContent.shortDescription}</p>
           </div>
         ))}
+        </Link>
       </div>
     </div>
   );
