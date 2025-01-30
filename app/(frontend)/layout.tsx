@@ -1,19 +1,37 @@
-import React from 'react'
-import './styles.css'
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+// import { Geist } from 'next/font/google'
+import "@/app/globals.css";
 
-export const metadata = {
-  description: 'A blank template using Payload in a Next.js app.',
-  title: 'Payload Blank Template',
-}
+import Header from "@/components/header";
+import Footer from "@/components/footer";
 
-export default async function RootLayout(props: { children: React.ReactNode }) {
-  const { children } = props
 
+const Interfont  = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+})
+
+
+export const metadata: Metadata = {
+  title: "Neotic Website",
+  description: "Created For Neotic",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
     <html lang="en">
-      <body>
-        <main>{children}</main>
+      <body
+        className={`${Interfont.variable} ${Interfont.variable} antialiased bg-linear-to-b from-[#2F70A1] to-[#8D8E79]`}
+      >
+        <Header />
+        {children}
+        <Footer />
       </body>
     </html>
-  )
+  );
 }
