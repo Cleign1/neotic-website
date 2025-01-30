@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 // import { Geist } from 'next/font/google'
 import "@/app/globals.css";
 
-import Header from "@/components/header";
+import Header from "@/app/(frontend)/header";
 import Footer from "@/components/footer";
 
 
