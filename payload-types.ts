@@ -124,7 +124,6 @@ export interface KontenBerita {
   };
   shortDescription?: string | null;
   slug: string;
-  publishedAt?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -234,7 +233,6 @@ export interface KontenBeritaSelect<T extends boolean = true> {
   konten?: T;
   shortDescription?: T;
   slug?: T;
-  publishedAt?: T;
   updatedAt?: T;
   createdAt?: T;
 }

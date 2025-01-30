@@ -83,17 +83,6 @@ export const KontenBerita: CollectionConfig = {
         ],
       },
     },
-    {
-      name: "publishedAt",
-      type: "date",
-      label: "Tanggal Publikasi",
-      admin: {
-        position: "sidebar",
-        date: {
-          pickerAppearance: "dayAndTime",
-        },
-      },
-    },
   ],
   hooks: {
     beforeChange: [
