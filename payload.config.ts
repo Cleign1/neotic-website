@@ -6,6 +6,7 @@ import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
+import { s3Storage } from '@payloadcms/storage-s3'
 
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
@@ -14,13 +15,31 @@ const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export default buildConfig({
+  collections: [Users, Media],
+  plugins: [
+    payloadCloudPlugin(),
+    s3Storage({
+      collections: {
+        media: true, // Enable S3 storage for the 'media' collection
+      },
+      bucket: process.env.S3_BUCKET || "", // Your Cloudflare R2 bucket name
+      config: {
+        credentials: {
+          accessKeyId: process.env.S3_ACCESS_KEY_ID || "", // Your R2 Access Key ID
+          secretAccessKey: process.env.S3_SECRET_ACCESS_KEY || "", // Your R2 Secret Access Key
+        },
+        region: 'auto', // Cloudflare R2 uses 'auto' as the region
+        endpoint: process.env.S3_ENDPOINT, // Your R2 endpoint, e.g., 'https://<account-id>.r2.cloudflarestorage.com'
+        forcePathStyle: true, // Required for Cloudflare R2
+      },
+    }),
+  ],
   admin: {
     user: Users.slug,
     importMap: {
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
@@ -32,8 +51,4 @@ export default buildConfig({
     },
   }),
   sharp,
-  plugins: [
-    payloadCloudPlugin(),
-    // storage-adapter-placeholder
-  ],
 })
