@@ -1,11 +1,11 @@
 import { JSX } from "react/jsx-runtime";
-import neoticlogobig from "@/components/logo/neotic_transparent.svg";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import neoCourse2 from "@/components/images/berita/05berita.jpg";
-import neoCourse1 from "@/components/images/berita/neocoursebatch1.jpg";
 import { StaticImageData } from "next/image";
+import { getPayload } from "payload";
+import configPromise from '@payload-config';
+
 
 interface PortoContent {
   id: number;
@@ -14,23 +14,32 @@ interface PortoContent {
   shortDescription: string;
 }
 
-export default function PortofolioPage(): JSX.Element {
-  const portoContents: PortoContent[] = [
-    {
-      id: 1,
-      title: "NeoCourse Batch 1",
-      imageSrc: neoCourse1,
-      shortDescription:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque enim quos eaque, maiores in animi voluptates! Libero, repellat.",
-    },
-    {
-      id: 2,
-      title: "NeoCourse Batch 2",
-      imageSrc: neoCourse2,
-      shortDescription:
-        "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita explicabo sit iusto minima consequatur corporis recusandae molestiae fuga aperiam natus!",
-    },
-  ];
+async function fetchPortoContents(): Promise<PortoContent[]> {
+  try {
+    const payload = await getPayload({ config: configPromise });
+
+    const result = await payload.find({
+      collection: "portofolioPage",
+      pagination: false,
+    })
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return result.docs.map((doc: any) => ({
+      id: doc.id,
+      title: doc.title,
+      imageSrc: doc.imageSrc,
+      shortDescription: doc.shortDescription || "No description available",
+      slug: doc.slug,
+    }))
+
+  } catch (error) {
+    console.error("Error fetching data from Payload CMS:", error);
+    return [];  // Return an empty array on error
+  }
+}
+
+export default async function PortofolioPage(): Promise<JSX.Element> {
+  const portoContents = await fetchPortoContents();
 
   return (
     <div className="my-10 min-h-screen">
@@ -43,7 +52,7 @@ export default function PortofolioPage(): JSX.Element {
       <div className="bg-blue-210 w-full mt-10 mb-10">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-7 p-4">
           <div className="flex justify-center items-center m-8">
-            <Image src={neoticlogobig} alt="Neotic Logo" width={300} />
+            <Image src="https://cdn.ibnukhaidar-pi.com/neotic_transparent.svg" alt="Neotic Logo" width={300} height={300}/>
           </div>
           <div className="flex flex-col justify-center text-center m-8 text-lg items-center">
             <p>
