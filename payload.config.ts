@@ -11,12 +11,13 @@ import { s3Storage } from '@payloadcms/storage-s3'
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { KontenBerita } from './collections/KontenBerita'
+import { PortfolioCollection } from './collections/PortofolioCollection'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export default buildConfig({
-  collections: [Users, Media, KontenBerita],
+  collections: [Users, Media, KontenBerita, PortfolioCollection],
   plugins: [
     payloadCloudPlugin(),
     s3Storage({

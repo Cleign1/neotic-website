@@ -14,6 +14,7 @@ export interface Config {
     users: User;
     media: Media;
     'konten-berita': KontenBerita;
+    portofolioPage: PortofolioPage;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -23,6 +24,7 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     'konten-berita': KontenBeritaSelect<false> | KontenBeritaSelect<true>;
+    portofolioPage: PortofolioPageSelect<false> | PortofolioPageSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -129,6 +131,34 @@ export interface KontenBerita {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "portofolioPage".
+ */
+export interface PortofolioPage {
+  id: number;
+  title: string;
+  image: number | Media;
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  shortDescription?: string | null;
+  slug: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -145,6 +175,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'konten-berita';
         value: number | KontenBerita;
+      } | null)
+    | ({
+        relationTo: 'portofolioPage';
+        value: number | PortofolioPage;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -231,6 +265,19 @@ export interface KontenBeritaSelect<T extends boolean = true> {
   judul?: T;
   gambar?: T;
   konten?: T;
+  shortDescription?: T;
+  slug?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "portofolioPage_select".
+ */
+export interface PortofolioPageSelect<T extends boolean = true> {
+  title?: T;
+  image?: T;
+  content?: T;
   shortDescription?: T;
   slug?: T;
   updatedAt?: T;
