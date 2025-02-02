@@ -4,7 +4,7 @@ import { JSX } from "react/jsx-runtime";
 import configPromise from "@payload-config";
 import Link from "next/link";
 import Image from "next/image";
-import { PayloadLexicalReact } from '@zapal/payload-lexical-react'
+import { PayloadLexicalReact } from '@zapal/payload-lexical-react';
 
 interface BeritaPage {
   id: string;
@@ -14,30 +14,67 @@ interface BeritaPage {
   slug: string;
 }
 
-async function fetchBeritaPage(): Promise<BeritaPage[]> {
+async function fetchBeritaBySlug(slug: string): Promise<BeritaPage | null> {
   try {
     const payload = await getPayload({ config: configPromise });
 
     const result = await payload.find({
       collection: "konten-berita",
-      pagination: false,
+      where: {
+        slug: {
+          equals: slug,
+        },
+      },
+      limit: 1,
     });
 
-    return result.docs.map((doc: any) => ({
-      id: doc.id,
+    if (result.docs.length === 0) {
+      return null;
+    }
+
+    const doc = result.docs[0];
+    return {
+      id: doc.id.toString(),
       title: doc.judul,
       imageSrc: doc.gambar.url,
       content: doc.konten,
       slug: doc.slug,
-    }));
+    };
   } catch (error) {
     console.error("Error fetching data from Payload CMS:", error);
-    return [];
+    return null;
   }
 }
 
-export default async function BeritaPage(): Promise<JSX.Element> {
-  const beritaPage = await fetchBeritaPage();
+export async function generateStaticParams() {
+  const payload = await getPayload({ config: configPromise });
+
+  const result = await payload.find({
+    collection: "konten-berita",
+    pagination: false,
+  });
+
+  return result.docs.map((doc: any) => ({
+    slug: doc.slug,
+  }));
+}
+
+interface Args {
+  params: {
+    slug: string;
+  };
+}
+
+export default async function BeritaPage({ params }: Args): Promise<JSX.Element> {
+  // Destructure `slug` from `params` directly
+  const { slug } = params;
+
+  // Fetch the post using the slug
+  const berita = await fetchBeritaBySlug(slug);
+
+  if (!berita) {
+    return <div>Post not found</div>;
+  }
 
   return (
     <div className="min-h-screen">
@@ -46,18 +83,16 @@ export default async function BeritaPage(): Promise<JSX.Element> {
           <h1>Berita</h1>
         </Link>
       </div>
-      {beritaPage.map((berita, index) => (
-        <div className="" key={index}>
-            <Image 
-                src={berita.imageSrc}
-                alt={berita.title}
-                width={200}
-                height={200}
-            />
-            <h1>{berita.title}</h1>
-            <PayloadLexicalReact />
-        </div>
-      ))}
+      <div className="">
+        <Image 
+          src={berita.imageSrc}
+          alt={berita.title}
+          width={200}
+          height={200}
+        />
+        <h1>{berita.title}</h1>
+        <PayloadLexicalReact content={berita.content} />
+      </div>
     </div>
   );
 }
