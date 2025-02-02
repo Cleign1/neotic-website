@@ -82,19 +82,22 @@ export default async function BeritaPage(props: Args): Promise<JSX.Element> {
     <div className="min-h-screen">
       <div className="bg-blue-210 text-center font-semibold text-2xl mt-10 p-4">
         <Link href="/berita">
-          <h1>Berita</h1>
+          <h1 className="text-3xl">Berita</h1>
         </Link>
       </div>
-      <div className="">
+      <div className="bg-blue-210 p-8 mt-10 mb-10 text-center">
         <Image 
           src={berita.imageSrc}
           alt={berita.title}
           width={200}
           height={200}
+          className="rounded-xl mx-auto"
         />
-        <h1>{berita.title}</h1>
+        <h1 className="mt-4 text-2xl font-semibold">{berita.title}</h1>
         {/* ignore this error */}
-        <PayloadLexicalReact content={berita.content} />
+        <div className="px-64 my-16">
+          <PayloadLexicalReact content={berita.content}/>
+        </div>
       </div>
     </div>
   );
