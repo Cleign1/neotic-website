@@ -1,16 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { getPayload } from "payload";
-import { JSX } from "react/jsx-runtime";
-import configPromise from "@payload-config";
-import Link from "next/link";
-import Image from "next/image";
+import { JSX } from 'react/jsx-runtime';
+import { getPayload } from 'payload';
+import configPromise from '@payload-config';
+import Link from 'next/link';
+import Image from 'next/image';
 import { PayloadLexicalReact } from '@zapal/payload-lexical-react';
+import { KontenBerita } from '@/payload-types'; // Adjust the import path as needed
 
 interface BeritaPage {
   id: string;
   title: string;
   imageSrc: string;
-  content: string;
+  content: any; // Lexical JSON structure
   slug: string;
 }
 
@@ -19,7 +20,7 @@ async function fetchBeritaBySlug(slug: string): Promise<BeritaPage | null> {
     const payload = await getPayload({ config: configPromise });
 
     const result = await payload.find({
-      collection: "konten-berita",
+      collection: 'konten-berita',
       where: {
         slug: {
           equals: slug,
@@ -32,17 +33,16 @@ async function fetchBeritaBySlug(slug: string): Promise<BeritaPage | null> {
       return null;
     }
 
-    // ignore this error, ini gk ngaruh ke hasil akhir
-    const doc = result.docs[0];
+    const doc = result.docs[0] as KontenBerita;
     return {
-      id: doc.id,
+      id: doc.id.toString(),
       title: doc.judul,
-      imageSrc: doc.gambar.url,
+      imageSrc: typeof doc.gambar === 'object' && 'url' in doc.gambar ? doc.gambar.url || '' : '',
       content: doc.konten,
       slug: doc.slug,
     };
   } catch (error) {
-    console.error("Error fetching data from Payload CMS:", error);
+    console.error('Error fetching data from Payload CMS:', error);
     return null;
   }
 }
@@ -51,24 +51,22 @@ export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise });
 
   const result = await payload.find({
-    collection: "konten-berita",
+    collection: 'konten-berita',
     pagination: false,
   });
 
-  return result.docs.map((doc: any) => ({
+  return result.docs.map((doc: KontenBerita) => ({
     slug: doc.slug,
   }));
 }
 
 interface Args {
-  params: Promise<{
+  params: {
     slug: string;
-  }>;
+  };
 }
 
-export default async function BeritaPage(props: Args): Promise<JSX.Element> {
-  const params = await props.params;
-  // Destructure `slug` from `params` directly
+export default async function BeritaPage({ params }: Args): Promise<JSX.Element> {
   const { slug } = params;
 
   // Fetch the post using the slug
@@ -89,12 +87,11 @@ export default async function BeritaPage(props: Args): Promise<JSX.Element> {
         <Image 
           src={berita.imageSrc}
           alt={berita.title}
-          width={200}
-          height={200}
+          width={300}
+          height={300}
           className="rounded-xl mx-auto"
         />
         <h1 className="mt-4 text-2xl font-semibold">{berita.title}</h1>
-        {/* ignore this error */}
         <div className="px-64 my-16">
           <PayloadLexicalReact content={berita.content}/>
         </div>
