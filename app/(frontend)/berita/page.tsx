@@ -3,6 +3,7 @@ import Image from "next/image";
 import { getPayload } from "payload";
 import configPromise from '@payload-config';
 import Link from "next/link";
+import { KontenBerita } from "@/payload-types";
 
 interface BeritaContent {
   id: string;
@@ -24,10 +25,10 @@ async function fetchBeritaContents(): Promise<BeritaContent[]> {
 
     // Map the Payload data to the BeritaContent interface
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return result.docs.map((doc: any) => ({
-      id: doc.id,
+    return result.docs.map((doc: KontenBerita) => ({
+      id: doc.id.toString(),
       title: doc.judul,
-      imageSrc: doc.gambar.url, // Assuming 'gambar' is an upload field with a 'url' property
+      imageSrc: typeof doc.gambar === 'object' && 'url' in doc.gambar ? doc.gambar.url || '': '', // Check if 'gambar' is an object and has 'url' property
       shortDescription: doc.shortDescription || "No description available", // Use richText field excerpt or fallback
       slug: doc.slug, // Fetch the slug
     }));
@@ -57,8 +58,8 @@ export default async function BeritaPage(): Promise<JSX.Element> {
               <Image
                 src={beritaContent.imageSrc}
                 alt={beritaContent.title}
-                width={200}
-                height={200}
+                width={300}
+                height={300}
                 className="m-8"
               />
               <p className="text-justify">{beritaContent.shortDescription}</p>
