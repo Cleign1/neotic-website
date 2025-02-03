@@ -1,6 +1,5 @@
 import Link from "next/link";
 import Image from "next/image";
-import neoticText from "@/components/logo/Neotic Text.svg";
 import { Sheet, SheetTrigger, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 
@@ -65,7 +64,7 @@ export default function Header() {
       <div className="container mx-auto px-3 py-4 md:flex justify-between items-center hidden">
         <div className="shrink-0">
           <Link href="/">
-            <Image priority src={neoticText} alt="Neotic Logo" width={80} />
+            <Image priority src="https://cdn.ibnukhaidar-pi.com/Neotic%20Text.svg" alt="Neotic Logo" width={80} height={80} />
           </Link>
         </div>
         {/* pc navbar */}
