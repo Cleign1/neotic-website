@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { JSX } from 'react/jsx-runtime';
-import { getPayload } from 'payload';
-import configPromise from '@payload-config';
-import Link from 'next/link';
-import Image from 'next/image';
-import { PayloadLexicalReact } from '@zapal/payload-lexical-react';
-import { KontenBerita } from '@/payload-types'; // Adjust the import path as needed
+import { JSX } from "react/jsx-runtime";
+import { getPayload } from "payload";
+import configPromise from "@payload-config";
+import Link from "next/link";
+import Image from "next/image";
+import { KontenBerita } from "@/payload-types"; // Adjust the import path as needed
+import RichText from "@/app/components/RichText";
 
 interface BeritaPage {
   id: string;
@@ -20,7 +20,7 @@ async function fetchBeritaBySlug(slug: string): Promise<BeritaPage | null> {
     const payload = await getPayload({ config: configPromise });
 
     const result = await payload.find({
-      collection: 'konten-berita',
+      collection: "konten-berita",
       where: {
         slug: {
           equals: slug,
@@ -37,12 +37,15 @@ async function fetchBeritaBySlug(slug: string): Promise<BeritaPage | null> {
     return {
       id: doc.id.toString(),
       title: doc.judul,
-      imageSrc: typeof doc.gambar === 'object' && 'url' in doc.gambar ? doc.gambar.url || '' : '',
+      imageSrc:
+        typeof doc.gambar === "object" && "url" in doc.gambar
+          ? doc.gambar.url || ""
+          : "",
       content: doc.konten,
       slug: doc.slug,
     };
   } catch (error) {
-    console.error('Error fetching data from Payload CMS:', error);
+    console.error("Error fetching data from Payload CMS:", error);
     return null;
   }
 }
@@ -51,7 +54,7 @@ export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise });
 
   const result = await payload.find({
-    collection: 'konten-berita',
+    collection: "konten-berita",
     pagination: false,
   });
 
@@ -66,7 +69,9 @@ interface Args {
   };
 }
 
-export default async function BeritaPage({ params }: Args): Promise<JSX.Element> {
+export default async function BeritaPage({
+  params,
+}: Args): Promise<JSX.Element> {
   const { slug } = params;
 
   // Fetch the post using the slug
@@ -84,16 +89,18 @@ export default async function BeritaPage({ params }: Args): Promise<JSX.Element>
         </Link>
       </div>
       <div className="bg-blue-210 p-8 mt-10 mb-10 text-center">
-        <Image 
-          src={berita.imageSrc}
-          alt={berita.title}
-          width={300}
-          height={300}
-          className="rounded-xl mx-auto"
-        />
-        <h1 className="mt-4 text-2xl font-semibold">{berita.title}</h1>
-        <div className="px-64 my-16">
-          <PayloadLexicalReact content={berita.content}/>
+        <div className="container mx-auto py-20">
+          <Image
+            src={berita.imageSrc}
+            alt={berita.title}
+            width={300}
+            height={300}
+            className="rounded-xl mx-auto"
+          />
+          <h1 className="mt-4 text-2xl font-semibold p-6">{berita.title}</h1>
+          <div className="container mx-auto mt-4 p-20">
+            <RichText content={berita.content} />
+          </div>
         </div>
       </div>
     </div>
