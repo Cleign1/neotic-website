@@ -91,8 +91,8 @@ export const KontenBerita: CollectionConfig = {
           // Convert Lexical JSON to plain text
           const plainText = convertLexicalToPlainText(data.konten);
   
-          // Extract the first 20 characters and append "...."
-          data.shortDescription = plainText.slice(0, 20) + "....";
+          // Extract the first 50 characters and append "...."
+          data.shortDescription = plainText.slice(0, 50) + "....";
         }
         return data;
       },
