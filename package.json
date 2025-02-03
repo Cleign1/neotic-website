@@ -7,8 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "postinstall": "prisma generate",
-    "payload": "cross-env PAYLOAD_CONFIG_PATH=src/payload.config.ts payload"
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "^3.20.0",
