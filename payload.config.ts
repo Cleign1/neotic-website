@@ -12,12 +12,13 @@ import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { KontenBerita } from './collections/KontenBerita'
 import { PortfolioCollection } from './collections/PortofolioCollection'
+import { PortofolioTop } from './collections/PortofolioTop'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export default buildConfig({
-  collections: [Users, Media, KontenBerita, PortfolioCollection],
+  collections: [Users, Media, KontenBerita, PortfolioCollection, PortofolioTop],
   plugins: [
     payloadCloudPlugin(),
     s3Storage({
