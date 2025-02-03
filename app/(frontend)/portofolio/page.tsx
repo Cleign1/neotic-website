@@ -2,16 +2,16 @@ import { JSX } from "react/jsx-runtime";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { StaticImageData } from "next/image";
 import { getPayload } from "payload";
 import configPromise from '@payload-config';
 
 
 interface PortoContent {
-  id: number;
+  id: string;
   title: string;
-  imageSrc: StaticImageData;
+  imageSrc: string;
   shortDescription: string;
+  slug: string;
 }
 
 async function fetchPortoContents(): Promise<PortoContent[]> {
@@ -27,7 +27,7 @@ async function fetchPortoContents(): Promise<PortoContent[]> {
     return result.docs.map((doc: any) => ({
       id: doc.id,
       title: doc.title,
-      imageSrc: doc.imageSrc,
+      imageSrc: doc.image.url,
       shortDescription: doc.shortDescription || "No description available",
       slug: doc.slug,
     }))
@@ -81,6 +81,8 @@ export default async function PortofolioPage(): Promise<JSX.Element> {
                       src={portoContents.imageSrc}
                       alt="Neotic Logo"
                       width={300}
+                      height={300}
+                      className="rounded-lg"
                     />
                   </div>
                   <div className="flex flex-col justify-center text-center m-8">
