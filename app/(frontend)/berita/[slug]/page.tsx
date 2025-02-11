@@ -72,7 +72,7 @@ interface Args {
 export default async function BeritaPage({
   params,
 }: Args): Promise<JSX.Element> {
-  const { slug } = params;
+  const  { slug } = await params;
 
   // Fetch the post using the slug
   const berita = await fetchBeritaBySlug(slug);
