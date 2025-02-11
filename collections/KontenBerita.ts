@@ -3,7 +3,8 @@ import { CollectionConfig } from "payload";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import { authenticated } from "@/lib/access/authenticated";
 import { authenticatedOrPublished } from "@/lib/access/authenticatedOrPublished";
-import { generatePreviewPath } from "@/lib/generatePreviewPath";
+// to be used in the future
+// import { generatePreviewPath } from "@/lib/generatePreviewPath";
 
 export const KontenBerita: CollectionConfig = {
   slug: "konten-berita",
@@ -19,16 +20,17 @@ export const KontenBerita: CollectionConfig = {
   },
   admin: {
     defaultColumns: ["judul", "slug", "publishedAt", "updatedAt"],
-    livePreview: {
-        url: ({ data, req}) => {
-            const path = generatePreviewPath({
-                slug: typeof data?.slug === 'string' ? data.slug : '',
-                collection: 'konten-berita',
-                req,
-            })
-            return path
-        },
-    },
+    // untuk future use
+    // livePreview: {
+    //     url: ({ data, req}) => {
+    //         const path = generatePreviewPath({
+    //             slug: typeof data?.slug === 'string' ? data.slug : '',
+    //             collection: 'konten-berita',
+    //             req,
+    //         })
+    //         return path
+    //     },
+    // },
   },
   fields: [
     {
