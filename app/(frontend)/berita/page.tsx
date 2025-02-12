@@ -46,7 +46,7 @@ export default async function BeritaPage(): Promise<JSX.Element> {
       <div className="bg-blue-210 text-center font-semibold text-2xl mt-10 p-4">
         <h1>Berita</h1>
       </div>
-      <div className="bg-blue-210 grid grid-cols-1 md:grid-cols-3 gap-7 mt-10 mb-10 px-8 py-14">
+      <div className="bg-blue-210 grid grid-cols-1 md:grid-cols-3 gap-7 mt-10 mb-10 px-8 md:px-10 py-14">
         {beritaContents.map((beritaContent, index) => (
           <Link
             key={index}
