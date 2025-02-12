@@ -53,7 +53,7 @@ export default function AboutUs(): JSX.Element {
         </div>
         {/* Section 1 */}
         <div className="bg-blue-210 py-8">
-          <div className="container mx-auto m-6 px-3 md:px-10">
+          <div className="container mx-auto m-6 px-7 md:px-10">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
               {/* Box 1 */}
               <div className="bg-white p-4 rounded-lg hover:shadow-lg">
@@ -78,7 +78,7 @@ export default function AboutUs(): JSX.Element {
 
         {/* Section 2 */}
         <div className="bg-blue-210 text-center p-4">
-          <div className="container mx-auto m-6 px-3 md:px-10">
+          <div className="container mx-auto m-6 px-3 md:px-7">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
               {about2.map((section) => (
                 <div key={section.id} className="bg-white p-4 rounded-lg hover:shadow-lg">
