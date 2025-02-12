@@ -35,7 +35,7 @@ export default function Home(): JSX.Element {
     <div className="min-h-screen">
       {/* section latest program */}
       <div className="bg-blue-210">
-        <div className="container mx-auto px-4 gap-5 p-1 mt-10 mb-10">
+        <div className="container mx-auto px-4 md:px-10 gap-5 p-1 mt-10 mb-10">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mt-10 mb-10">
             {sections.map((section, index) => (
               <div
