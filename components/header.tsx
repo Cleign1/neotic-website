@@ -61,7 +61,7 @@ export default function Header() {
           </SheetContent>
         </Sheet>
       </div>
-      <div className="container mx-auto px-10 py-4 md:flex justify-between items-center hidden">
+      <div className="container mx-auto px-3 md:px-10 py-4 md:flex justify-between items-center hidden">
         <div className="shrink-0">
           <Link href="/">
             <Image priority src="https://cdn.ibnukhaidar-pi.com/Neotic%20Text.svg" alt="Neotic Logo" width={80} height={80} />
