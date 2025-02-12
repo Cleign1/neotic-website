@@ -112,9 +112,9 @@ export default async function PortofolioPage(): Promise<JSX.Element> {
           {portoContents.map((portoContent, index) => (
             <div
               key={index}
-              className="grid grid-flow-row auto-rows-max justify-center"
+              className="grid grid-flow-row auto-rows-max justify-center md:px-6"
             >
-              <div className="bg-white shadow-md rounded-lg p-8 m-4 mb-10 hover:shadow-lg">
+              <div className="bg-white shadow-md rounded-lg mb-10 hover:shadow-lg p-4 mx-6">
                 <div className="grid grid-cols-1 md:grid-cols-2">
                   <div className="flex justify-center items-center m-8">
                     <Image
