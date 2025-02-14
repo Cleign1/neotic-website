@@ -106,6 +106,7 @@ export default async function PortofolioPage(): Promise<JSX.Element> {
       </div>
 
       {/* Second Section: Our Work */}
+      {/* Need to be slugged and clickable using Next Link */}
       <div className="bg-blue-210 w-full mt-10 mb-10">
         <div>
           <h1 className="text-center font-semibold text-2xl p-10">Our Work</h1>
