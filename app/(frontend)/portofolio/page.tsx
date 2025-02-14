@@ -111,30 +111,35 @@ export default async function PortofolioPage(): Promise<JSX.Element> {
         <div>
           <h1 className="text-center font-semibold text-2xl p-10">Our Work</h1>
           {portoContents.map((portoContent, index) => (
-            <div
+            <Link
               key={index}
-              className="grid grid-flow-row auto-rows-max justify-center md:px-6"
+              href={`/portofolio/${portoContent.slug}`}
+              passHref
             >
-              <div className="bg-white shadow-md rounded-lg mb-10 hover:shadow-lg p-4 mx-6">
-                <div className="grid grid-cols-1 md:grid-cols-2">
-                  <div className="flex justify-center items-center m-8">
-                    <Image
-                      src={portoContent.imageSrc}
-                      alt="Neotic Logo"
-                      width={300}
-                      height={300}
-                      className="rounded-lg"
-                    />
-                  </div>
-                  <div className="flex flex-col justify-center text-center m-8">
-                    <h1 className="font-semibold text-xl mb-2">
-                      {portoContent.title}
-                    </h1>
-                    <p className="text-base">{portoContent.shortDescription}</p>
+              <div className="grid grid-flow-row auto-rows-max justify-center md:px-6">
+                <div className="bg-white shadow-md rounded-lg mb-10 hover:shadow-lg p-4 mx-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2">
+                    <div className="flex justify-center items-center m-8">
+                      <Image
+                        src={portoContent.imageSrc}
+                        alt="Neotic Logo"
+                        width={300}
+                        height={300}
+                        className="rounded-lg"
+                      />
+                    </div>
+                    <div className="flex flex-col justify-center text-center m-8">
+                      <h1 className="font-semibold text-xl mb-2">
+                        {portoContent.title}
+                      </h1>
+                      <p className="text-base">
+                        {portoContent.shortDescription}
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
