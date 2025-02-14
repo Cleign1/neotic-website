@@ -5,7 +5,8 @@ import configPromise from "@payload-config";
 import Link from "next/link";
 import Image from "next/image";
 import type { PortofolioPage } from "@/payload-types";
-import RichText from "@/app/components/RichText";
+// import RichText from "@/app/components/RichText";
+import { RichText } from '@payloadcms/richtext-lexical/react';
 
 interface PortofolioPageProps {
     id: string,
@@ -85,7 +86,7 @@ export default async function PortofolioSlug({ params }: Args): Promise<JSX.Elem
         <div className="my-10 min-h-screen">
             <div className="bg-blue-210 text-center font-semibold text-2xl p-4">
                 <Link href='/portofolio'>
-                    <h1>Portofolio</h1>
+                    <h1 className="text-3xl">Portofolio</h1>
                 </Link>
             </div>
 
@@ -97,10 +98,11 @@ export default async function PortofolioSlug({ params }: Args): Promise<JSX.Elem
                         alt={portofolio.title}
                         width={300}
                         height={300}
+                        className="rounded-xl mx-auto"
                     />
                     <h1 className="mt-4 text-2xl font-semibold p-6">{portofolio.title}</h1>
-                    <div className="container mx-auto mt-4 p-20">
-                        <RichText content={portofolio.content} />
+                    <div className="container mx-auto mt-4 p-20 text-left">
+                        <RichText data={portofolio.content} />
                     </div>
                 </div>
             </div>
