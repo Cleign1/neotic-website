@@ -15,8 +15,8 @@ export const KontenBerita: CollectionConfig = {
     update: authenticated,
   },
   labels: {
-    singular: "Konten Berita",
-    plural: "List Konten Berita",
+    singular: "Konten Berita Page",
+    plural: "Konten Berita Pages",
   },
   admin: {
     defaultColumns: ["judul", "slug", "publishedAt", "updatedAt"],
