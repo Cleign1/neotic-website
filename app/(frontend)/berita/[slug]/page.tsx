@@ -5,7 +5,7 @@ import configPromise from "@payload-config";
 import Link from "next/link";
 import Image from "next/image";
 import { KontenBerita } from "@/payload-types"; // Adjust the import path as needed
-import RichText from "@/app/components/RichText";
+import { RichText } from "@payloadcms/richtext-lexical/react";
 
 interface BeritaPage {
   id: string;
@@ -99,7 +99,7 @@ export default async function BeritaPage({
           />
           <h1 className="mt-4 text-2xl font-semibold p-6">{berita.title}</h1>
           <div className="container mx-auto mt-4 p-20">
-            <RichText content={berita.content} />
+            <RichText data={berita.content} />
           </div>
         </div>
       </div>
