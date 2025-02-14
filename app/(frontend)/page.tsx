@@ -1,35 +1,71 @@
-import neoticlatestnewsImage from "@/components/images/neotic-latest news.jpg";
-import neoticlatestprogramImage from "@/components/images/neotic_latest program.jpg";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import revouLogo from "@/components/images/P3Limage3Revou.png";
 import dicodingLogo from "@/components/images/P3Limage2Dicoding.png";
-import Image, { StaticImageData } from "next/image";
+import Image from "next/image";
 import Link from "next/link";
 import { JSX } from "react/jsx-runtime";
+import configPromise from "@payload-config";
+import { getPayload } from "payload";
 
 interface Section {
   type: "Portofolio" | "Berita";
+  id: string;
   title: string;
-  imageSrc: StaticImageData;
+  imageSrc: string;
   description: string;
 }
 
-export default function Home(): JSX.Element {
-  const sections: Section[] = [
-    {
-      type: "Portofolio",
-      title: "Our Latest Program",
-      imageSrc: neoticlatestprogramImage,
-      description:
-        "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quibusdam illum fugit vero amet possimus? Dicta sunt hic eveniet accusantium fugiat?",
-    },
-    {
-      type: "Berita",
-      title: "Our Latest News",
-      imageSrc: neoticlatestnewsImage,
-      description:
-        "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quibusdam illum fugit vero amet possimus? Dicta sunt hic eveniet accusantium fugiat?",
-    },
-  ];
+async function fetchSections(): Promise<Section[]> {
+  try {
+    const payload = await getPayload({ config: configPromise });
+
+    const beritaResult = await payload.find({
+      collection: "konten-berita",
+      pagination: false,
+    });
+
+    const portofolioResult = await payload.find({
+      collection: "portofolioPage",
+      pagination: false,
+    });
+
+    const newestBerita = beritaResult.docs[0];
+    const newestPortofolio = portofolioResult.docs[0];
+
+    const hasilAkhir = [
+      {
+        type: "Berita",
+        id: newestBerita.id.toString(),
+        title: newestBerita.judul,
+        imageSrc:
+          typeof newestBerita.gambar === "object" &&
+          "url" in newestBerita.gambar
+            ? newestBerita.gambar.url || ""
+            : "",
+        description: newestBerita.shortDescription || "Tidak ada deskripsi",
+      },
+      {
+        type: "Portofolio",
+        id: newestPortofolio.id.toString(),
+        title: newestPortofolio.title,
+        imageSrc:
+          typeof newestPortofolio.image === "object" &&
+          "url" in newestPortofolio.image
+            ? newestPortofolio.image.url || ""
+            : "",
+        description: newestPortofolio.shortDescription || "Tidak ada deskripsi",
+      },
+    ] as Section[];
+
+    return hasilAkhir;
+  } catch (error) {
+    console.error("Error fetching data from Payload CMS:", error);
+    return [];
+  }
+}
+
+export default async function Home(): Promise<JSX.Element> {
+  const Sections = await fetchSections();
 
   return (
     <div className="min-h-screen">
@@ -37,13 +73,15 @@ export default function Home(): JSX.Element {
       <div className="bg-blue-210">
         <div className="container mx-auto px-4 md:px-10 gap-5 p-1 mt-10 mb-10">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mt-10 mb-10">
-            {sections.map((section, index) => (
+            {Sections.map((section, index) => (
               <div
                 key={index}
                 className="bg-white p-6 rounded-xl flex flex-col items-center hover:shadow-lg justify-center"
               >
                 <Link
-                  href={section.type === "Portofolio" ? "/portofolio" : "/berita"}
+                  href={
+                    section.type === "Portofolio" ? "/portofolio" : "/berita"
+                  }
                   className="flex flex-col items-center"
                 >
                   <h2 className="text-xl font-semibold mb-4 text-center">
