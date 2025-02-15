@@ -14,8 +14,8 @@ export const PortfolioCollection: CollectionConfig = {
     update: authenticated,
   },
   labels: {
-    singular: "Portfolio Item",
-    plural: "Portfolio Items",
+    singular: "Postingan Portofolio",
+    plural: "Postingan Portofolio",
   },
   admin: {
     defaultColumns: ["title", "slug", "publishedAt", "updatedAt"],
