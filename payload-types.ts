@@ -15,6 +15,8 @@ export interface Config {
     media: Media;
     'konten-berita': KontenBerita;
     portofolioPage: PortofolioPage;
+    portofolioTop: PortofolioTop;
+    aboutPage: AboutPage;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -25,6 +27,8 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     'konten-berita': KontenBeritaSelect<false> | KontenBeritaSelect<true>;
     portofolioPage: PortofolioPageSelect<false> | PortofolioPageSelect<true>;
+    portofolioTop: PortofolioTopSelect<false> | PortofolioTopSelect<true>;
+    aboutPage: AboutPageSelect<false> | AboutPageSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -100,6 +104,32 @@ export interface Media {
   height?: number | null;
   focalX?: number | null;
   focalY?: number | null;
+  sizes?: {
+    thumbnail?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    kotak?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    banner?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+  };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -152,8 +182,61 @@ export interface PortofolioPage {
     };
     [k: string]: unknown;
   };
-  shortDescription?: string | null;
+  shortDescription: string;
   slug: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "portofolioTop".
+ */
+export interface PortofolioTop {
+  id: number;
+  description: string;
+  image: number | Media;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "aboutPage".
+ */
+export interface AboutPage {
+  id: number;
+  ourPhilosophy?: string | null;
+  whoWeAre?: string | null;
+  whatWeDo?: string | null;
+  ourVision?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  ourMission?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -179,6 +262,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'portofolioPage';
         value: number | PortofolioPage;
+      } | null)
+    | ({
+        relationTo: 'portofolioTop';
+        value: number | PortofolioTop;
+      } | null)
+    | ({
+        relationTo: 'aboutPage';
+        value: number | AboutPage;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -256,6 +347,40 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
+  sizes?:
+    | T
+    | {
+        thumbnail?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        kotak?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        banner?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+      };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -280,6 +405,29 @@ export interface PortofolioPageSelect<T extends boolean = true> {
   content?: T;
   shortDescription?: T;
   slug?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "portofolioTop_select".
+ */
+export interface PortofolioTopSelect<T extends boolean = true> {
+  description?: T;
+  image?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "aboutPage_select".
+ */
+export interface AboutPageSelect<T extends boolean = true> {
+  ourPhilosophy?: T;
+  whoWeAre?: T;
+  whatWeDo?: T;
+  ourVision?: T;
+  ourMission?: T;
   updatedAt?: T;
   createdAt?: T;
 }
