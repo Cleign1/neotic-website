@@ -1,6 +1,10 @@
 import { CollectionConfig } from 'payload';
 
 export const PortofolioTop: CollectionConfig = {
+  labels: {
+    singular: "Portofolio Bagian Atas",
+    plural: "Portofolio Bagian Atas",
+  },
   slug: 'portofolioTop',
   fields: [
     {
