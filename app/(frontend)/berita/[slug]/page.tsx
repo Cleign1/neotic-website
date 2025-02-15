@@ -88,7 +88,7 @@ export default async function BeritaPage({
           <h1 className="text-3xl">Berita</h1>
         </Link>
       </div>
-      <div className="bg-blue-210 p-8 mt-10 mb-10 text-center">
+      <div className="bg-blue-210 p-8 mt-10 mb-10">
         <div className="container mx-auto py-20">
           <Image
             src={berita.imageSrc}
@@ -97,9 +97,9 @@ export default async function BeritaPage({
             height={300}
             className="rounded-xl mx-auto"
           />
-          <h1 className="mt-4 text-2xl font-semibold p-6">{berita.title}</h1>
-          <div className="container mx-auto mt-4 p-20">
-            <RichText data={berita.content} />
+          <h1 className="mt-4 text-2xl font-semibold p-6 text-center">{berita.title}</h1>
+          <div className="container mx-auto mt-4 px-96">
+            <RichText data={berita.content} className="text-lg/9"/>
           </div>
         </div>
       </div>
