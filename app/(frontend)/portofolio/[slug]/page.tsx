@@ -91,7 +91,7 @@ export default async function PortofolioSlug({ params }: Args): Promise<JSX.Elem
             </div>
 
             {/* Isi dari Kontent Portofolio */}
-            <div className="bg-blue-210 p-8 mt-10 mb-10 text-center">
+            <div className="bg-blue-210 p-8 mt-10 mb-10 ">
                 <div className="container mx-auto py-20">
                     <Image 
                         src={portofolio.imageSrc}
@@ -100,9 +100,9 @@ export default async function PortofolioSlug({ params }: Args): Promise<JSX.Elem
                         height={300}
                         className="rounded-xl mx-auto"
                     />
-                    <h1 className="mt-4 text-2xl font-semibold p-6">{portofolio.title}</h1>
-                    <div className="container mx-auto mt-4 p-20 text-left">
-                        <RichText data={portofolio.content} />
+                    <h1 className="mt-4 text-2xl font-semibold p-6 text-center">{portofolio.title}</h1>
+                    <div className="container mx-auto mt-4 px-96">
+                        <RichText data={portofolio.content} className="text-lg/9" />
                     </div>
                 </div>
             </div>
