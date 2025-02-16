@@ -1,9 +1,21 @@
 import { JSX } from "react/jsx-runtime";
-import { AboutPage } from "@/payload-types";
+// import { AboutPage } from "@/payload-types";
 import { getPayload } from "payload";
 import configPromise from "@payload-config";
 import { RichText } from "@payloadcms/richtext-lexical/react";
+import { SerializedEditorState } from "lexical";
+// import RichText from "@/app/components/RichText";
 
+interface AboutPage {
+  id: string;
+  updatedAt: string;
+  createdAt: string;
+  ourPhilosophy: string;
+  whoWeAre: string;
+  whatWeDo: string;
+  ourVision: SerializedEditorState; // Assuming richText is returned as a string or HTML
+  ourMission: SerializedEditorState; // Assuming richText is returned as a string or HTML
+}
 
 async function getAboutPage():Promise<AboutPage> {
   try {
@@ -14,17 +26,18 @@ async function getAboutPage():Promise<AboutPage> {
     });
 
     // Assuming the result contains the data you need
-    const doc = result.docs[0] as AboutPage; // Return the first document in the collection
-    return {
+    const docs = result.docs.map((doc: any) => ({
       id: doc.id,
       updatedAt: doc.updatedAt,
       createdAt: doc.createdAt,
-      ourPhilosophy: doc.ourPhilosophy,
-      whoWeAre: doc.whoWeAre,
-      whatWeDo: doc.whatWeDo,
-      ourVision: doc.ourVision,
-      ourMission: doc.ourMission
-    };
+      ourPhilosophy: doc.ourPhilosophy || "No philosophy available",
+      whoWeAre: doc.whoWeAre || "No information available",
+      whatWeDo: doc.whatWeDo || "No information available",
+      ourVision: doc.ourVision || "No vision available", // Assuming richText is returned as a string or HTML
+      ourMission: doc.ourMission || "No mission available", // Assuming richText is returned as a string or HTML
+    }));
+
+    return docs[0];
 
   } catch (error) {
     console.error("Error fetching data from Payload CMS:", error);
@@ -81,13 +94,19 @@ export default async function AboutUs(): Promise<JSX.Element> {
                 <h1 className="text-2xl p-4 font-semibold">Our Vision</h1>
                 <div className="m-10 text-justify">
                   {/* Debug ini coy, masih gk jelas */}
-                  {aboutPageData.ourVision && <RichText data={aboutPageData.ourVision}/>}
+                  <RichText 
+                      data={aboutPageData.ourVision} 
+                      className="[&>ul]:list-disc [&>ol]:list-decimal [&>ul]:ml-8 [&>ol]:ml-8 [&>ul]:my-4 [&>ol]:my-4 [&>li]:mb-2"
+                  />
                 </div>
               </div>
               <div className="bg-white p-4 rounded-lg hover:shadow-lg">
                 <h1 className="text-2xl p-4 font-semibold">Our Mission</h1>
                 <div className="m-10 text-justify">
-                {aboutPageData.ourMission && <RichText data={aboutPageData.ourMission}/>}
+                <RichText 
+                    data={aboutPageData.ourMission}
+                    className="[&>ul]:list-disc [&>ol]:list-decimal [&>ul]:ml-8 [&>ol]:ml-8 [&>ul]:my-4 [&>ol]:my-4 [&>li]:mb-2"
+                />
                 </div>
               </div>
             </div>
