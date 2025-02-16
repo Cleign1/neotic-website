@@ -6,12 +6,13 @@ import Link from "next/link";
 import Image from "next/image";
 import { KontenBerita } from "@/payload-types"; // Adjust the import path as needed
 import { RichText } from "@payloadcms/richtext-lexical/react";
+import { SerializedEditorState } from "@payloadcms/richtext-lexical/lexical";
 
 interface BeritaPage {
   id: string;
   title: string;
   imageSrc: string;
-  content: any; // Lexical JSON structure
+  content: SerializedEditorState; // Lexical JSON structure
   slug: string;
 }
 
@@ -41,7 +42,7 @@ async function fetchBeritaBySlug(slug: string): Promise<BeritaPage | null> {
         typeof doc.gambar === "object" && "url" in doc.gambar
           ? doc.gambar.url || ""
           : "",
-      content: doc.konten,
+      content: doc.konten as SerializedEditorState,
       slug: doc.slug,
     };
   } catch (error) {
@@ -99,7 +100,9 @@ export default async function BeritaPage({
           />
           <h1 className="mt-4 text-2xl font-semibold p-6 text-center">{berita.title}</h1>
           <div className="container mx-auto mt-4 px-96">
-            <RichText data={berita.content} className="text-lg/9"/>
+            <RichText 
+                data={berita.content} 
+                className='text-lg/9 [&>ul]:list-disc [&>ol]:list-decimal [&>ul]:ml-8 [&>ol]:ml-8 [&>ul]:my-4 [&>ol]:my-4 [&>li]:mb-2'/>
           </div>
         </div>
       </div>
