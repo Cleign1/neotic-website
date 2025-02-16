@@ -1,4 +1,4 @@
-import { lexicalEditor } from "@payloadcms/richtext-lexical";
+import { BoldFeature, lexicalEditor } from "@payloadcms/richtext-lexical";
 import { CollectionConfig } from "payload";
 
 export const AboutPage: CollectionConfig = {
@@ -26,14 +26,13 @@ export const AboutPage: CollectionConfig = {
         {
             name: "ourVision",
             label: "Our Vision",
-            type: "richText",
-            editor: lexicalEditor(),
+            type: "richText"
+
         },
         {
             name: "ourMission",
             label: "Our Mission",
             type: "richText",
-            editor: lexicalEditor(),
         }
     ]
 }
