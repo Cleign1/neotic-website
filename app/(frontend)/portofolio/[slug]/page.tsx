@@ -7,12 +7,13 @@ import Image from "next/image";
 import type { PortofolioPage } from "@/payload-types";
 // import RichText from "@/app/components/RichText";
 import { RichText } from '@payloadcms/richtext-lexical/react';
+import { SerializedEditorState } from "@payloadcms/richtext-lexical/lexical";
 
 interface PortofolioPageProps {
     id: string,
     title: string,
     imageSrc: string,
-    content: any,
+    content: SerializedEditorState,
     slug: string,
 }
 
@@ -42,7 +43,7 @@ async function fetchPortofolioBySlug(slug: string): Promise<PortofolioPageProps 
                 typeof doc.image === "object" && "url" in doc.image
                     ? doc.image.url || ""
                     : "",
-            content: doc.content,
+            content: doc.content as SerializedEditorState,
             slug: doc.slug,
         };
     } catch (error) {
@@ -102,7 +103,9 @@ export default async function PortofolioSlug({ params }: Args): Promise<JSX.Elem
                     />
                     <h1 className="mt-4 text-2xl font-semibold p-6 text-center">{portofolio.title}</h1>
                     <div className="container mx-auto mt-4 px-96">
-                        <RichText data={portofolio.content} className="text-lg/9" />
+                        <RichText 
+                            data={portofolio.content} 
+                            className="text-lg/9 [&>ul]:list-disc [&>ol]:list-decimal [&>ul]:ml-8 [&>ol]:ml-8 [&>ul]:my-4 [&>ol]:my-4 [&>li]:mb-2" />
                     </div>
                 </div>
             </div>
