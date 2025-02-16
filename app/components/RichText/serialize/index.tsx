@@ -19,6 +19,7 @@ import {
   IS_SUPERSCRIPT,
   IS_UNDERLINE,
 } from './nodeFormat'
+import { JSX } from 'react/jsx-runtime'
 
 interface Props {
   nodes: SerializedLexicalNode[]
@@ -119,7 +120,7 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
             const node = _node as SerializedListNode
 
             type List = Extract<keyof JSX.IntrinsicElements, 'ol' | 'ul'>
-            const Tag = node?.tag as List
+            const Tag = node?.listType === 'bullet' ? 'ul' : 'ol' // Use 'ul' for bullet lists, 'ol' for numbered lists
             return (
               <Tag className={node?.listType} key={index}>
                 {serializedChildren}
