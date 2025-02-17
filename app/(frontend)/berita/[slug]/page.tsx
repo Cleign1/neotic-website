@@ -99,10 +99,8 @@ export default async function BeritaPage({
             className="rounded-xl mx-auto"
           />
           <h1 className="mt-4 text-2xl font-semibold p-6 text-center">{berita.title}</h1>
-          <div className="container mx-auto mt-4 px-96">
-            <RichText 
-                data={berita.content} 
-                className='text-lg/9 [&>ul]:list-disc [&>ol]:list-decimal [&>ul]:ml-8 [&>ol]:ml-8 [&>ul]:my-4 [&>ol]:my-4 [&>li]:mb-2'/>
+          <div className="container mx-auto mt-4 px-96 rich-text-content">
+            <RichText data={berita.content} />
           </div>
         </div>
       </div>
