@@ -84,22 +84,22 @@ export default async function BeritaPage({
 
   return (
     <div className="min-h-screen">
-      <div className="bg-blue-210 text-center font-semibold text-2xl mt-10 p-4">
+      <div className="bg-blue-210 text-center font-semibold mt-10 p-4">
         <Link href="/berita">
-          <h1 className="text-3xl">Berita</h1>
+          <h1 className="text-2xl md:text-3xl">Berita</h1>
         </Link>
       </div>
-      <div className="bg-blue-210 p-8 mt-10 mb-10">
-        <div className="container mx-auto py-20">
+      <div className="bg-blue-210 p-4 md:p-8 mt-10 mb-10">
+        <div className="container mx-auto py-10 md:py-20">
           <Image
             src={berita.imageSrc}
             alt={berita.title}
             width={300}
             height={300}
-            className="rounded-xl mx-auto"
+            className="rounded-xl mx-auto w-full max-w-[300px]"
           />
-          <h1 className="mt-4 text-2xl font-semibold p-6 text-center">{berita.title}</h1>
-          <div className="container mx-auto mt-4 px-96 rich-text-content">
+          <h1 className="mt-4 text-xl md:text-2xl font-semibold p-4 md:p-6 text-center">{berita.title}</h1>
+          <div className="container mx-auto mt-4 md:px-96 rich-text-content">
             <RichText data={berita.content} />
           </div>
         </div>
