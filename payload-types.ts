@@ -71,6 +71,7 @@ export interface Config {
     portofolioPage: PortofolioPage;
     portofolioTop: PortofolioTop;
     aboutPage: AboutPage;
+    messages: Message;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -83,6 +84,7 @@ export interface Config {
     portofolioPage: PortofolioPageSelect<false> | PortofolioPageSelect<true>;
     portofolioTop: PortofolioTopSelect<false> | PortofolioTopSelect<true>;
     aboutPage: AboutPageSelect<false> | AboutPageSelect<true>;
+    messages: MessagesSelect<false> | MessagesSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -338,6 +340,20 @@ export interface AboutPage {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "messages".
+ */
+export interface Message {
+  id: number;
+  name: string;
+  email: string;
+  phone?: string | null;
+  messageTitle: string;
+  message: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -366,6 +382,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'aboutPage';
         value: number | AboutPage;
+      } | null)
+    | ({
+        relationTo: 'messages';
+        value: number | Message;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -524,6 +544,19 @@ export interface AboutPageSelect<T extends boolean = true> {
   whatWeDo?: T;
   ourVision?: T;
   ourMission?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "messages_select".
+ */
+export interface MessagesSelect<T extends boolean = true> {
+  name?: T;
+  email?: T;
+  phone?: T;
+  messageTitle?: T;
+  message?: T;
   updatedAt?: T;
   createdAt?: T;
 }
