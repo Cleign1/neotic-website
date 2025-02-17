@@ -137,3 +137,86 @@
     @apply bg-background text-foreground;
     }
 }
+
+@layer components{
+  .rich-text-content h1 {
+    font-size: 42px;
+    font-weight: bold;
+    margin: 1rem 0;
+  }
+  
+  .rich-text-content h2 {
+    font-size: 34px;
+    font-weight: bold;
+    margin: 0.9rem 0;
+  }
+  
+  .rich-text-content h3 {
+    font-size: 30px;
+    font-weight: bold;
+    margin: 0.8rem 0;
+  }
+  
+  .rich-text-content h4 {
+    font-size: 26px;
+    font-weight: bold;
+    margin: 0.7rem 0;
+  }
+  
+  .rich-text-content h5 {
+    font-size: 22px;
+    font-weight: bold;
+    margin: 0.6rem 0;
+  }
+  
+  .rich-text-content h6 {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0.5rem 0;
+  }
+  
+  /* Paragraph text */
+  .rich-text-content p {
+    font-size: 18px;
+    line-height: 40px;
+    margin: 0.5rem 0;
+  }
+  
+  /* Bold text */
+  .rich-text-content strong {
+    font-weight: bold;
+  }
+  
+  /* Italic text */
+  .rich-text-content em {
+    font-style: italic;
+  }
+  
+  /* Lists */
+  .rich-text-content ul,
+  .rich-text-content ol {
+    margin: 0.5rem 0;
+    padding-left: 2rem;
+    font-size: 18px;
+  }
+  
+  .rich-text-content ul {
+    list-style-type: disc;
+  }
+  
+  .rich-text-content ol {
+    list-style-type: decimal;
+  }
+  
+  .rich-text-content li {
+    margin: 0.25rem 0;
+  }
+
+  .rich-text-content blockquote {
+    border-left: 4px solid #ccc; /* Add a left border */
+    margin: 1.5rem 0; /* Add spacing around the blockquote */
+    padding: 0.5rem 1rem; /* Add padding inside the blockquote */
+    font-style: italic; /* Italicize the text */
+    background-color: #f9f9f9; /* Add a light background color */
+  }
+}
