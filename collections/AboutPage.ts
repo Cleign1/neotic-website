@@ -1,4 +1,3 @@
-import { BoldFeature, lexicalEditor } from "@payloadcms/richtext-lexical";
 import { CollectionConfig } from "payload";
 
 export const AboutPage: CollectionConfig = {
@@ -11,17 +10,17 @@ export const AboutPage: CollectionConfig = {
         {
             name: "ourPhilosophy",
             label: "Our Philosophy",
-            type: "textarea",
+            type: "richText",
         },
         {
             name: "whoWeAre",
             label: "Who We Are",
-            type: "textarea",
+            type: "richText",
         },
         {
             name: "whatWeDo",
             label: "What We Do",
-            type: "textarea",
+            type: "richText",
         },
         {
             name: "ourVision",
