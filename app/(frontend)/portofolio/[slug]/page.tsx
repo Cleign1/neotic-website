@@ -102,10 +102,8 @@ export default async function PortofolioSlug({ params }: Args): Promise<JSX.Elem
                         className="rounded-xl mx-auto"
                     />
                     <h1 className="mt-4 text-2xl font-semibold p-6 text-center">{portofolio.title}</h1>
-                    <div className="container mx-auto mt-4 px-96">
-                        <RichText 
-                            data={portofolio.content} 
-                            className="text-lg/9 [&>ul]:list-disc [&>ol]:list-decimal [&>ul]:ml-8 [&>ol]:ml-8 [&>ul]:my-4 [&>ol]:my-4 [&>li]:mb-2" />
+                    <div className="container mx-auto mt-4 px-96 rich-text-content">
+                        <RichText data={portofolio.content} />
                     </div>
                 </div>
             </div>
