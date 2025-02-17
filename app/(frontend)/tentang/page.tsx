@@ -10,14 +10,14 @@ interface AboutPage {
   id: string;
   updatedAt: string;
   createdAt: string;
-  ourPhilosophy: string;
-  whoWeAre: string;
-  whatWeDo: string;
+  ourPhilosophy: SerializedEditorState;
+  whoWeAre: SerializedEditorState;
+  whatWeDo: SerializedEditorState;
   ourVision: SerializedEditorState; // Assuming richText is returned as a string or HTML
   ourMission: SerializedEditorState; // Assuming richText is returned as a string or HTML
 }
 
-async function getAboutPage():Promise<AboutPage> {
+async function getAboutPage(): Promise<AboutPage> {
   try {
     const payload = await getPayload({ config: configPromise });
     const result = await payload.find({
@@ -62,24 +62,24 @@ export default async function AboutUs(): Promise<JSX.Element> {
               {/* Box 1 */}
               <div className="bg-white p-4 rounded-lg hover:shadow-lg">
                 <h1 className="text-center p-5 text-2xl font-semibold">Our Philosophy</h1>
-                <p className="m-10 text-justify">
-                  {aboutPageData.ourPhilosophy} 
-                  </p>
+                <div className="m-10 text-justify text-lg rich-text-content">
+                  <RichText data={aboutPageData.ourPhilosophy} />
+                </div>
               </div>
               <div className="grid grid-row-2 gap-10">
                 {/* Box 2 */}
                 <div className="bg-white p-4 rounded-lg hover:shadow-lg">
                   <h1 className="text-center text-2xl font-semibold p-4">Who We Are</h1>
-                  <p className="m-10 text-justify">
-                    {aboutPageData.whoWeAre} 
-                  </p>
+                  <div className="m-10 text-justify text-lg rich-text-content">
+                    <RichText data={aboutPageData.whoWeAre} />
+                  </div>
                 </div>
                 {/* Box 3 */}
                 <div className="bg-white p-4 rounded-lg hover:shadow-lg">
                   <h1 className="text-center text-2xl p-4 font-semibold">What We Do</h1>
-                  <p className="m-10 text-justify">
-                    {aboutPageData.whatWeDo} 
-                  </p>
+                  <div className="m-10 text-justify text-lg rich-text-content">
+                    <RichText data={aboutPageData.whatWeDo} />
+                  </div>
                 </div>
               </div>
             </div>
@@ -92,21 +92,15 @@ export default async function AboutUs(): Promise<JSX.Element> {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
               <div className="bg-white p-4 rounded-lg hover:shadow-lg">
                 <h1 className="text-2xl p-4 font-semibold">Our Vision</h1>
-                <div className="m-10 text-justify">
+                <div className="m-10 text-justify rich-text-content">
                   {/* Debug ini coy, masih gk jelas */}
-                  <RichText 
-                      data={aboutPageData.ourVision} 
-                      className="[&>ul]:list-disc [&>ol]:list-decimal [&>ul]:ml-8 [&>ol]:ml-8 [&>ul]:my-4 [&>ol]:my-4 [&>li]:mb-2"
-                  />
+                  <RichText data={aboutPageData.ourVision} />
                 </div>
               </div>
               <div className="bg-white p-4 rounded-lg hover:shadow-lg">
                 <h1 className="text-2xl p-4 font-semibold">Our Mission</h1>
-                <div className="m-10 text-justify">
-                <RichText 
-                    data={aboutPageData.ourMission}
-                    className="[&>ul]:list-disc [&>ol]:list-decimal [&>ul]:ml-8 [&>ol]:ml-8 [&>ul]:my-4 [&>ol]:my-4 [&>li]:mb-2"
-                />
+                <div className="m-10 text-justify rich-text-content">
+                  <RichText data={aboutPageData.ourMission} />
                 </div>
               </div>
             </div>
