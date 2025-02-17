@@ -84,7 +84,7 @@ export default async function Home(): Promise<JSX.Element> {
                   }
                   className="flex flex-col items-center"
                 >
-                  <h2 className="text-xl font-semibold mb-4 text-center">
+                  <h2 className="text-xl font-semibold mb-4 text-center p-4">
                     {section.title}
                   </h2>
                   <Image
@@ -94,7 +94,7 @@ export default async function Home(): Promise<JSX.Element> {
                     height={300}
                     className="mx-auto"
                   />
-                  <p className="text-gray-800 text-center p-3">
+                  <p className="text-gray-800 text-center p-3 mt-5">
                     {section.description}
                   </p>
                 </Link>
