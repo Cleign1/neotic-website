@@ -7,6 +7,7 @@
 - [x] buat agar rich text itu bisa di render di front end mao ada gambar kek di dalem rich text itu atau cuman garis horizontal kah, pokoknya harus ada dan bisa muncul di front end
 - [x] buat supaya tailwind integrasi dengan cms kalo isinya richtext, contoh kaya heading 1 - heading 6, bold, italic, underline, link, image, checklist, ordered list, unordered list, blockquote, relationship, dan lain lain
 - [x] buat yang richtext itu responsive
+- [ ] tambahin contact us message jadi bisa muncul ke cms
 - [ ] buat functional search button
 - [ ] test vercel deployment
 - [ ] refactor code and comment for better understanding
