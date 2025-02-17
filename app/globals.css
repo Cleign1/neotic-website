@@ -140,37 +140,37 @@
 
 @layer components{
   .rich-text-content h1 {
-    font-size: 42px;
+    font-size: 38px;
     font-weight: bold;
     margin: 1rem 0;
   }
   
   .rich-text-content h2 {
-    font-size: 34px;
+    font-size: 32px;
     font-weight: bold;
     margin: 0.9rem 0;
   }
   
   .rich-text-content h3 {
-    font-size: 30px;
+    font-size: 28px;
     font-weight: bold;
     margin: 0.8rem 0;
   }
   
   .rich-text-content h4 {
-    font-size: 26px;
+    font-size: 24px;
     font-weight: bold;
     margin: 0.7rem 0;
   }
   
   .rich-text-content h5 {
-    font-size: 22px;
+    font-size: 20px;
     font-weight: bold;
     margin: 0.6rem 0;
   }
   
   .rich-text-content h6 {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: bold;
     margin: 0.5rem 0;
   }
