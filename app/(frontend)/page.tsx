@@ -6,6 +6,8 @@ import Link from "next/link";
 import { JSX } from "react/jsx-runtime";
 import configPromise from "@payload-config";
 import { getPayload } from "payload";
+import payloadConfig from "@payload-config";
+import { revalidatePath } from "next/cache";
 
 interface Section {
   type: "Portofolio" | "Berita";
@@ -13,6 +15,35 @@ interface Section {
   title: string;
   imageSrc: string;
   description: string;
+}
+
+async function createMessage( formdata: FormData) {
+  try {
+    const payload = await getPayload({ config: payloadConfig });
+
+    const fullname = formdata.get("fullname");
+    const email = formdata.get("email");
+    const phone = formdata.get("phone");
+    const messageTitle = formdata.get("messageTitle");
+    const message = formdata.get("message");
+
+    const result = await payload.create({
+      collection: "messages",
+      data: {
+        name: fullname as string,
+        email: email as string,
+        phone: phone as string,
+        messageTitle: messageTitle as string,
+        message: message as string,
+      },
+    });
+    revalidatePath("/");
+
+    return result;
+  } catch (error) {
+    console.error("Error creating message:", error);
+    return null;
+  }
 }
 
 async function fetchSections(): Promise<Section[]> {
@@ -184,29 +215,40 @@ export default async function Home(): Promise<JSX.Element> {
             </div>
             {/* section kanan: form kontak */}
             <div className="order-2 md:order-none">
-              <form className="space-y-4">
+              <form 
+                className="space-y-4"
+                action={async (formData) => {
+                  'use server'
+                  await createMessage(formData)
+                }}
+              >
                 <input
                   type="text"
                   placeholder="Nama Lengkap"
+                  name="fullname"
                   className="w-full bg-gray-100 border border-gray-300 rounded-md p-3 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
                 />
                 <input
                   type="email"
                   placeholder="Email"
+                  name="email"
                   className="w-full bg-gray-100 border border-gray-300 rounded-md p-3 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
                 />
                 <input
                   type="tel"
                   placeholder="Nomor Telepon"
+                  name="phone"
                   className="w-full bg-gray-100 border border-gray-300 rounded-md p-3 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
                 />
                 <input
                   type="text"
                   placeholder="Judul Pesan"
+                  name="messageTitle"
                   className="w-full bg-gray-100 border border-gray-300 rounded-md p-3 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
                 />
                 <textarea
                   placeholder="Pesan"
+                  name="message"
                   rows={4}
                   className="w-full bg-gray-100 border border-gray-300 rounded-md p-3 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
                 ></textarea>
