@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import revouLogo from "@/components/images/P3Limage3Revou.png";
 import dicodingLogo from "@/components/images/P3Limage2Dicoding.png";
 import Image from "next/image";
@@ -7,7 +6,7 @@ import { JSX } from "react/jsx-runtime";
 import configPromise from "@payload-config";
 import { getPayload } from "payload";
 import { createMessage } from "../actions/CreateMessage";
-
+import { Toaster } from "@/components/ui/sonner";
 
 interface Section {
   type: "Portofolio" | "Berita";
@@ -16,7 +15,6 @@ interface Section {
   imageSrc: string;
   description: string;
 }
-
 
 async function fetchSections(): Promise<Section[]> {
   try {
@@ -69,10 +67,10 @@ async function fetchSections(): Promise<Section[]> {
 
 export default async function Home(): Promise<JSX.Element> {
   const Sections = await fetchSections();
-  
 
   return (
     <div className="min-h-screen">
+      <Toaster position="bottom-right" richColors />
       {/* section latest program */}
       <div className="bg-blue-210">
         <div className="container mx-auto px-4 md:px-10 gap-5 p-1 mt-10 mb-10">
