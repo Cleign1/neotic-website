@@ -6,8 +6,8 @@ import Link from "next/link";
 import { JSX } from "react/jsx-runtime";
 import configPromise from "@payload-config";
 import { getPayload } from "payload";
-import payloadConfig from "@payload-config";
-import { revalidatePath } from "next/cache";
+import { createMessage } from "../actions/CreateMessage";
+
 
 interface Section {
   type: "Portofolio" | "Berita";
@@ -17,34 +17,6 @@ interface Section {
   description: string;
 }
 
-async function createMessage( formdata: FormData) {
-  try {
-    const payload = await getPayload({ config: payloadConfig });
-
-    const fullname = formdata.get("fullname");
-    const email = formdata.get("email");
-    const phone = formdata.get("phone");
-    const messageTitle = formdata.get("messageTitle");
-    const message = formdata.get("message");
-
-    const result = await payload.create({
-      collection: "messages",
-      data: {
-        name: fullname as string,
-        email: email as string,
-        phone: phone as string,
-        messageTitle: messageTitle as string,
-        message: message as string,
-      },
-    });
-    revalidatePath("/");
-
-    return result;
-  } catch (error) {
-    console.error("Error creating message:", error);
-    return null;
-  }
-}
 
 async function fetchSections(): Promise<Section[]> {
   try {
@@ -97,6 +69,7 @@ async function fetchSections(): Promise<Section[]> {
 
 export default async function Home(): Promise<JSX.Element> {
   const Sections = await fetchSections();
+  
 
   return (
     <div className="min-h-screen">
@@ -217,10 +190,7 @@ export default async function Home(): Promise<JSX.Element> {
             <div className="order-2 md:order-none">
               <form 
                 className="space-y-4"
-                action={async (formData) => {
-                  'use server'
-                  await createMessage(formData)
-                }}
+                action={createMessage}
               >
                 <input
                   type="text"
