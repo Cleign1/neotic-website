@@ -33,6 +33,7 @@ export default function MessageForm() {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(formSchema), // Integrate Zod validation
@@ -67,6 +68,7 @@ export default function MessageForm() {
 
       if (res.message === "Message successfully created.") {
         toast.success("Pesan berhasil dikirim");
+        reset();
       } else {
         toast.error(res.message || "Pesan gagal dikirim");
       }
