@@ -5,8 +5,8 @@ import Link from "next/link";
 import { JSX } from "react/jsx-runtime";
 import configPromise from "@payload-config";
 import { getPayload } from "payload";
-import { createMessage } from "../actions/CreateMessage";
-import { Toaster } from "@/components/ui/sonner";
+import { toast, Toaster } from 'sonner'; // Import Sonner
+import CreateMessage from "../components/CreateMessage";
 
 interface Section {
   type: "Portofolio" | "Berita";
@@ -15,6 +15,7 @@ interface Section {
   imageSrc: string;
   description: string;
 }
+
 
 async function fetchSections(): Promise<Section[]> {
   try {
@@ -70,7 +71,7 @@ export default async function Home(): Promise<JSX.Element> {
 
   return (
     <div className="min-h-screen">
-      <Toaster position="bottom-right" richColors />
+      {/* Add Sonner Toaster */}
       {/* section latest program */}
       <div className="bg-blue-210">
         <div className="container mx-auto px-4 md:px-10 gap-5 p-1 mt-10 mb-10">
@@ -105,6 +106,7 @@ export default async function Home(): Promise<JSX.Element> {
           </div>
         </div>
       </div>
+
       {/* section sponsor  */}
       <div className="bg-blue-210 py-10">
         <div className="container mx-auto px-4 gap-5">
@@ -129,6 +131,7 @@ export default async function Home(): Promise<JSX.Element> {
           </div>
         </div>
       </div>
+
       {/* section question query */}
       <div className="bg-blue-210 py-10 mt-10 mb-10">
         <div className="container mx-auto px-4 md:px-10">
@@ -184,50 +187,9 @@ export default async function Home(): Promise<JSX.Element> {
                 </Link>
               </div>
             </div>
+
             {/* section kanan: form kontak */}
-            <div className="order-2 md:order-none">
-              <form 
-                className="space-y-4"
-                action={createMessage}
-              >
-                <input
-                  type="text"
-                  placeholder="Nama Lengkap"
-                  name="fullname"
-                  className="w-full bg-gray-100 border border-gray-300 rounded-md p-3 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
-                />
-                <input
-                  type="email"
-                  placeholder="Email"
-                  name="email"
-                  className="w-full bg-gray-100 border border-gray-300 rounded-md p-3 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
-                />
-                <input
-                  type="tel"
-                  placeholder="Nomor Telepon"
-                  name="phone"
-                  className="w-full bg-gray-100 border border-gray-300 rounded-md p-3 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
-                />
-                <input
-                  type="text"
-                  placeholder="Judul Pesan"
-                  name="messageTitle"
-                  className="w-full bg-gray-100 border border-gray-300 rounded-md p-3 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
-                />
-                <textarea
-                  placeholder="Pesan"
-                  name="message"
-                  rows={4}
-                  className="w-full bg-gray-100 border border-gray-300 rounded-md p-3 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
-                ></textarea>
-                <button
-                  type="submit"
-                  className="bg-blue-600 text-white rounded-md py-3 px-6 hover:bg-blue-700 focus:outline-hidden focus:ring-2 focus:ring-blue-500 cursor-pointer"
-                >
-                  Kirim
-                </button>
-              </form>
-            </div>
+            <CreateMessage />
           </div>
         </div>
       </div>
