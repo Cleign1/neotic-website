@@ -1,19 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { CollectionConfig } from "payload";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
-import { authenticated } from "@/lib/access/authenticated";
-import { authenticatedOrPublished } from "@/lib/access/authenticatedOrPublished";
 // to be used in the future
 // import { generatePreviewPath } from "@/lib/generatePreviewPath";
 
 export const KontenBerita: CollectionConfig = {
   slug: "konten-berita",
-  access: {
-    create: authenticated,
-    delete: authenticated,
-    read: authenticatedOrPublished,
-    update: authenticated,
-  },
   labels: {
     singular: "Konten Berita Page",
     plural: "Konten Berita Pages",
