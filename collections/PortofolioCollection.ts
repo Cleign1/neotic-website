@@ -1,18 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { CollectionConfig } from "payload";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
-import { authenticated } from "@/lib/access/authenticated";
-import { authenticatedOrPublished } from "@/lib/access/authenticatedOrPublished";
 // import { generatePreviewPath } from "@/lib/generatePreviewPath";
 
 export const PortfolioCollection: CollectionConfig = {
   slug: "portofolioPage",
-  access: {
-    create: authenticated,
-    delete: authenticated,
-    read: authenticatedOrPublished,
-    update: authenticated,
-  },
   labels: {
     singular: "Postingan Portofolio",
     plural: "Postingan Portofolio",
