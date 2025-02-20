@@ -30,5 +30,11 @@ export const Messages: CollectionConfig = {
     ],
     admin: {
         useAsTitle: 'messageTitle',
+    },
+    access: {
+        create: () => true,
+        read: () => true,
+        update: () => true,
+        delete: () => true,
     }
 }
