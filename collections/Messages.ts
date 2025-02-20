@@ -34,7 +34,5 @@ export const Messages: CollectionConfig = {
     access: {
         create: () => true,
         read: () => true,
-        update: () => true,
-        delete: () => true,
     }
 }
