@@ -40,4 +40,5 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-certificates
+certificatespnpm-lock.yaml
+pnpm-lock.yaml
