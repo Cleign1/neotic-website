@@ -8,7 +8,7 @@
 - [x] buat supaya tailwind integrasi dengan cms kalo isinya richtext, contoh kaya heading 1 - heading 6, bold, italic, underline, link, image, checklist, ordered list, unordered list, blockquote, relationship, dan lain lain
 - [x] buat yang richtext itu responsive
 - [x] tambahin contact us message jadi bisa muncul ke cms
-- [ ] revalidate contact us message form using zod
-- [ ] buat functional search button
+- [x] revalidate contact us message form using zod
+- [ ] buat functional search button - on progress, masih css dan styling
 - [ ] test vercel deployment
 - [ ] refactor code and comment for better understanding
