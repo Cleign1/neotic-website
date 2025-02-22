@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
+import { useEffect, useState } from "react"; // Import useState
 import {
   Sheet,
   SheetTrigger,
@@ -8,7 +11,85 @@ import {
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 
+// SearchOverlay Component
+interface SearchOverlayProps {
+  isVisible: boolean;
+  onClose: () => void;
+}
+
+const SearchOverlay = ({ isVisible, onClose }: SearchOverlayProps) => {
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        onClose(); // Close the search overlay when Esc is pressed
+      }
+    };
+
+    const handleClickOutside = (event: MouseEvent) => {
+      const searchBox = document.querySelector(".search-box"); // Add a class to the search box
+      if (searchBox && !searchBox.contains(event.target as Node)) {
+        onClose(); // Close the search overlay when clicking outside the search box
+      }
+    };
+
+    // Add event listeners
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("mousedown", handleClickOutside);
+
+    // Cleanup event listeners
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [onClose]); // Re-run effect when onClose changes
+
+  if (!isVisible) return null;
+
+  return (
+    <div className="fixed inset-0 backdrop-blur-sm z-40 flex justify-center items-center">
+      <div className="bg-white p-6 rounded-lg w-full max-w-md search-box">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-xl font-semibold">Search</h2>
+          <button onClick={onClose} className="text-gray-700 hover:text-gray-900">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <input
+          type="text"
+          placeholder="Search..."
+          className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+        />
+      </div>
+    </div>
+  );
+};
+
 export default function Header() {
+  const [isSearchVisible, setSearchVisible] = useState(false); // State for search overlay
+
+  const toggleSearch = () => {
+    setSearchVisible(!isSearchVisible);
+  };
+
+  // add listener for keybind ctrl + k
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      // check if ctrl or cmd (mac) key is pressed
+      if ((event.ctrlKey || event.metaKey) && event.key === 'k') {
+        toggleSearch();
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isSearchVisible]);
+
+
   return (
     <header className="bg-white shadow-md">
       <div className="md:hidden flex items-center container mx-auto px-3 py-0">
@@ -43,7 +124,7 @@ export default function Header() {
           <SheetContent side="right">
             <SheetTitle className="font-semibold">Menu</SheetTitle>
             <div className="grid gap-2 py-4">
-              <div className="text-black hover:text-gray-800 px-3 py-1 flex gap-2">
+              <button className="text-black hover:text-gray-800 px-3 py-1 flex gap-2 hover:cursor-pointer" onClick={toggleSearch}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -61,7 +142,7 @@ export default function Header() {
                 <p className="text-black text-base font-semibold hover:text-gray-800">
                   Search
                 </p>
-              </div>
+              </button>
               <Link
                 href="/berita"
                 className="text-black text-base font-semibold hover:text-gray-800 px-3 py-1 flex gap-2"
@@ -196,7 +277,7 @@ export default function Header() {
           </ul>
         </nav>
         <div className="hidden md:flex shrink-0 ">
-          <button className="text-black hover:text-gray-800">
+          <button onClick={toggleSearch} className="text-black hover:text-gray-800">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -214,6 +295,9 @@ export default function Header() {
           </button>
         </div>
       </div>
+
+      {/* Search Overlay */}
+      <SearchOverlay isVisible={isSearchVisible} onClose={toggleSearch} />
     </header>
   );
 }
