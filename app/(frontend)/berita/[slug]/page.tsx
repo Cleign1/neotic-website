@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { JSX } from "react/jsx-runtime";
 import { getPayload } from "payload";
 import configPromise from "@payload-config";

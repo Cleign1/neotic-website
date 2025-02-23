@@ -6,7 +6,7 @@ import { RichText } from "@payloadcms/richtext-lexical/react";
 import { SerializedEditorState } from "lexical";
 // import RichText from "@/app/components/RichText";
 
-interface AboutPage {
+type AboutPage = {
   id: string;
   updatedAt: string;
   createdAt: string;
@@ -26,15 +26,15 @@ async function getAboutPage(): Promise<AboutPage> {
     });
 
     // Assuming the result contains the data you need
-    const docs = result.docs.map((doc: any) => ({
-      id: doc.id,
+    const docs = result.docs.map((doc: AboutPage) => ({
+      id: String(doc.id), // Convert number to string
       updatedAt: doc.updatedAt,
       createdAt: doc.createdAt,
       ourPhilosophy: doc.ourPhilosophy || "No philosophy available",
       whoWeAre: doc.whoWeAre || "No information available",
       whatWeDo: doc.whatWeDo || "No information available",
-      ourVision: doc.ourVision || "No vision available", // Assuming richText is returned as a string or HTML
-      ourMission: doc.ourMission || "No mission available", // Assuming richText is returned as a string or HTML
+      ourVision: doc.ourVision || "No vision available",
+      ourMission: doc.ourMission || "No mission available",
     }));
 
     return docs[0];
