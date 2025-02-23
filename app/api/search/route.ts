@@ -3,12 +3,23 @@ import { getPayload } from 'payload';
 import configPromise from "@payload-config";
 
 
+interface RichTextNode {
+  text?: string;
+  children?: RichTextNode[];
+}
+
+interface RichTextData {
+  root: {
+    children: RichTextNode[];
+  };
+}
+
 // Helper function to search within rich text
-const searchRichText = (richText: { [x: string]: unknown; root: any; }, query: string) => {
+const searchRichText = (richText: RichTextData, query: string): boolean => {
   if (!richText || !richText.root || !richText.root.children) return false;
 
   // Recursively search through the rich text structure
-  const searchNode = (node: { text: string; children: any[]; }) => {
+  const searchNode = (node: RichTextNode): boolean => {
     if (node.text && node.text.toLowerCase().includes(query.toLowerCase())) {
       return true;
     }
