@@ -24,7 +24,6 @@ async function fetchBeritaContents(): Promise<BeritaContent[]> {
     });
 
     // Map the Payload data to the BeritaContent interface
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return result.docs.map((doc: KontenBerita) => ({
       id: doc.id.toString(),
       title: doc.judul,
