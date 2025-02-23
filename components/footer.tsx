@@ -1,19 +1,18 @@
-import neoticBigLogi from "../components/logo/Neotic_Doang_Big logo.svg";
-import neoticText from "../components/logo/Neotic Text.svg";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function Footer() {
   return (
     <footer className="bg-white shadow-md">
-      <div className="container mx-auto px-3 py-2">
+      <div className="container mx-auto px-3 md:px-10 py-2">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="flex flex-col items-start">
             <Link href="/">
               <Image
                 priority
-                src={neoticBigLogi}
+                src="https://cdn.ibnukhaidar-pi.com/Neotic_Doang_Big%20logo.svg"
                 alt="Neotic Logo"
+                width={100}
                 height={100}
                 className="ml-2"
               />
@@ -27,9 +26,10 @@ export default function Footer() {
           <div className="flex flex-col md:items-center">
             <Link href="/">
               <Image 
-                src={neoticText} 
+                src="https://cdn.ibnukhaidar-pi.com/Neotic%20Text.svg"
                 alt="Neotic Logo" 
-                height={100} 
+                width={100} 
+                height={100}
                 className="md:ml-5"
               />
             </Link>

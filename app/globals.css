@@ -1,9 +1,76 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
 
-html {
-    font-family:  "Inter", system-ui, sans-serif;
+@plugin 'tailwindcss-animate';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --font-*: initial;
+  --font-inter: Inter;
+
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+
+  --color-blue-210: #cfd9dc;
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+
+  --color-chart-1: hsl(var(--chart-1));
+  --color-chart-2: hsl(var(--chart-2));
+  --color-chart-3: hsl(var(--chart-3));
+  --color-chart-4: hsl(var(--chart-4));
+  --color-chart-5: hsl(var(--chart-5));
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+}
+
+/*
+  The default border color has changed to `currentColor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+}
+
+@layer utilities {
+  html {
+    font-family: 'Inter', system-ui, sans-serif;
+  }
 }
 
 @layer base {
@@ -69,4 +136,87 @@ html {
   body {
     @apply bg-background text-foreground;
     }
+}
+
+@layer components{
+  .rich-text-content h1 {
+    font-size: 38px;
+    font-weight: bold;
+    margin: 1rem 0;
+  }
+  
+  .rich-text-content h2 {
+    font-size: 32px;
+    font-weight: bold;
+    margin: 0.9rem 0;
+  }
+  
+  .rich-text-content h3 {
+    font-size: 28px;
+    font-weight: bold;
+    margin: 0.8rem 0;
+  }
+  
+  .rich-text-content h4 {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0.7rem 0;
+  }
+  
+  .rich-text-content h5 {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0.6rem 0;
+  }
+  
+  .rich-text-content h6 {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0.5rem 0;
+  }
+  
+  /* Paragraph text */
+  .rich-text-content p {
+    font-size: 18px;
+    line-height: 40px;
+    margin: 0.5rem 0;
+  }
+  
+  /* Bold text */
+  .rich-text-content strong {
+    font-weight: bold;
+  }
+  
+  /* Italic text */
+  .rich-text-content em {
+    font-style: italic;
+  }
+  
+  /* Lists */
+  .rich-text-content ul,
+  .rich-text-content ol {
+    margin: 0.5rem 0;
+    padding-left: 2rem;
+    font-size: 18px;
+  }
+  
+  .rich-text-content ul {
+    list-style-type: disc;
+  }
+  
+  .rich-text-content ol {
+    list-style-type: decimal;
+  }
+  
+  .rich-text-content li {
+    margin: 0.25rem 0;
+  }
+
+  .rich-text-content blockquote {
+    border-left: 4px solid #ccc; /* Add a left border */
+    margin: 1.5rem 0; /* Add spacing around the blockquote */
+    padding: 0.5rem 1rem; /* Add padding inside the blockquote */
+    font-style: italic; /* Italicize the text */
+    background-color: #f9f9f9; /* Add a light background color */
+  }
 }
