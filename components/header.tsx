@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useEffect, useState } from "react"; // Import useState
+import { useCallback, useEffect, useState } from "react";
 import {
   Sheet,
   SheetTrigger,
@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 
-// SearchOverlay Component
 interface SearchOverlayProps {
   isVisible: boolean;
   onClose: () => void;
@@ -122,7 +121,7 @@ const SearchOverlay = ({ isVisible, onClose }: SearchOverlayProps) => {
               className="block p-2 hover:bg-gray-100 rounded-lg"
               onClick={onClose}
             >
-                <h3 className="font-medium">{result.collection === 'konten-berita' ? result.judul : result.title}</h3>
+              <h3 className="font-medium">{result.collection === 'konten-berita' ? result.judul : result.title}</h3>
               <p className="text-sm text-gray-600">{result.shortDescription}</p>
               <p className="text-xs text-gray-500">
                 Collection: {result.collection === 'konten-berita' ? 'Berita' : 'Portofolio'}
@@ -136,27 +135,26 @@ const SearchOverlay = ({ isVisible, onClose }: SearchOverlayProps) => {
 };
 
 export default function Header() {
-  const [isSearchVisible, setSearchVisible] = useState(false); // State for search overlay
+  const [isSearchVisible, setSearchVisible] = useState(false);
 
-  const toggleSearch = () => {
-    setSearchVisible(!isSearchVisible);
-  };
+  // Memoize toggleSearch so it doesn't change on every render
+  const toggleSearch = useCallback(() => {
+    setSearchVisible((prev) => !prev);
+  }, []);
 
   // add listener for keybind ctrl + k
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      // check if ctrl or cmd (mac) key is pressed
       if ((event.ctrlKey || event.metaKey) && event.key === "k") {
         toggleSearch();
       }
     };
 
     window.addEventListener("keydown", handleKeyDown);
-
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [isSearchVisible]);
+  }, [toggleSearch]);
 
   return (
     <header className="bg-white shadow-md">
@@ -310,7 +308,6 @@ export default function Header() {
             />
           </Link>
         </div>
-        {/* pc navbar */}
         <nav className="hidden md:flex grow justify-center">
           <ul className="flex justify-center space-x-10">
             <li>
@@ -347,7 +344,7 @@ export default function Header() {
             </li>
           </ul>
         </nav>
-        <div className="hidden md:flex shrink-0 ">
+        <div className="hidden md:flex shrink-0">
           <button
             onClick={toggleSearch}
             className="text-black hover:text-gray-800 hover:cursor-pointer"
