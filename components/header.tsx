@@ -17,31 +17,64 @@ interface SearchOverlayProps {
   onClose: () => void;
 }
 
+interface SearchResult {
+  title: string;
+  collection: string;
+  id: string;
+  slug: string;
+  judul: string;
+  shortDescription: string;
+}
+
 const SearchOverlay = ({ isVisible, onClose }: SearchOverlayProps) => {
+  const [query, setQuery] = useState("");
+  const [results, setResults] = useState<SearchResult[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleSearch = async (searchQuery: string) => {
+    if (!searchQuery) {
+      setResults([]);
+      return;
+    }
+
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const response = await fetch(`/api/search?q=${encodeURIComponent(searchQuery)}`);
+      if (!response.ok) throw new Error('Search failed');
+      const data = await response.json();
+      setResults(data.docs); // Access the `docs` property
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An unknown error occurred');
+      setResults([]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        onClose(); // Close the search overlay when Esc is pressed
-      }
-    };
-
     const handleClickOutside = (event: MouseEvent) => {
-      const searchBox = document.querySelector(".search-box"); // Add a class to the search box
+      const searchBox = document.querySelector(".search-box");
       if (searchBox && !searchBox.contains(event.target as Node)) {
-        onClose(); // Close the search overlay when clicking outside the search box
+        onClose();
       }
     };
 
-    // Add event listeners
-    window.addEventListener("keydown", handleKeyDown);
     window.addEventListener("mousedown", handleClickOutside);
-
-    // Cleanup event listeners
     return () => {
-      window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [onClose]); // Re-run effect when onClose changes
+  }, [onClose]);
+
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      handleSearch(query);
+    }, 300);
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [query]);
 
   if (!isVisible) return null;
 
@@ -50,17 +83,53 @@ const SearchOverlay = ({ isVisible, onClose }: SearchOverlayProps) => {
       <div className="bg-white p-6 rounded-lg w-full max-w-md search-box">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold">Search</h2>
-          <button onClick={onClose} className="text-gray-700 hover:text-gray-900">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          <button
+            onClick={onClose}
+            className="text-gray-700 hover:text-gray-900"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
             </svg>
           </button>
         </div>
         <input
           type="text"
-          placeholder="Search..."
-          className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+          placeholder="Search news..."
+          className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 mb-4"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
         />
+
+        {isLoading && <div className="text-center py-2">Searching...</div>}
+        {error && <div className="text-red-500 text-sm py-2">{error}</div>}
+
+        <div className="max-h-[400px] overflow-y-auto">
+          {results.map((result) => (
+            <Link
+              key={result.id}
+              href={result.collection === 'konten-berita' ? `/berita/${result.slug}` : `/portofolio/${result.slug}`}
+              className="block p-2 hover:bg-gray-100 rounded-lg"
+              onClick={onClose}
+            >
+                <h3 className="font-medium">{result.collection === 'konten-berita' ? result.judul : result.title}</h3>
+              <p className="text-sm text-gray-600">{result.shortDescription}</p>
+              <p className="text-xs text-gray-500">
+                Collection: {result.collection === 'konten-berita' ? 'Berita' : 'Portofolio'}
+              </p>
+            </Link>
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -77,18 +146,17 @@ export default function Header() {
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       // check if ctrl or cmd (mac) key is pressed
-      if ((event.ctrlKey || event.metaKey) && event.key === 'k') {
+      if ((event.ctrlKey || event.metaKey) && event.key === "k") {
         toggleSearch();
       }
-    }
+    };
 
-    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown);
 
     return () => {
-      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener("keydown", handleKeyDown);
     };
   }, [isSearchVisible]);
-
 
   return (
     <header className="bg-white shadow-md">
@@ -124,7 +192,10 @@ export default function Header() {
           <SheetContent side="right">
             <SheetTitle className="font-semibold">Menu</SheetTitle>
             <div className="grid gap-2 py-4">
-              <button className="text-black hover:text-gray-800 px-3 py-1 flex gap-2 hover:cursor-pointer" onClick={toggleSearch}>
+              <button
+                className="text-black hover:text-gray-800 px-3 py-1 flex gap-2 hover:cursor-pointer"
+                onClick={toggleSearch}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -277,7 +348,10 @@ export default function Header() {
           </ul>
         </nav>
         <div className="hidden md:flex shrink-0 ">
-          <button onClick={toggleSearch} className="text-black hover:text-gray-800">
+          <button
+            onClick={toggleSearch}
+            className="text-black hover:text-gray-800 hover:cursor-pointer"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
