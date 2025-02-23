@@ -5,7 +5,6 @@ import Link from "next/link";
 import { JSX } from "react/jsx-runtime";
 import configPromise from "@payload-config";
 import { getPayload } from "payload";
-import { toast, Toaster } from 'sonner'; // Import Sonner
 import CreateMessage from "../components/CreateMessage";
 
 interface Section {
