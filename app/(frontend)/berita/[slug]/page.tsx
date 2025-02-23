@@ -79,7 +79,20 @@ export default async function BeritaPage({
   const berita = await fetchBeritaBySlug(slug);
 
   if (!berita) {
-    return <div>Post not found</div>;
+    return (
+      <div className="my-10 min-h-screen">
+      <div className="bg-blue-210 text-center font-semibold p-4">
+          <Link href='/berita'>
+          <h1 className="text-2xl md:text-3xl">Berita</h1>
+          </Link>
+      </div>
+      <div className="bg-blue-210 p-4 md:p-8 mt-10 mb-10">
+          <div className="container mx-auto py-10 md:py-20">
+          <h1 className="text-xl md:text-2xl font-semibold p-4 md:p-6 text-center">Halaman tidak ditemukan</h1>
+          </div>
+      </div>
+      </div>
+  );
   }
 
   return (
@@ -99,7 +112,7 @@ export default async function BeritaPage({
             className="rounded-xl mx-auto w-full max-w-[300px]"
           />
           <h1 className="mt-4 text-xl md:text-2xl font-semibold p-4 md:p-6 text-center">{berita.title}</h1>
-          <div className="container mx-auto mt-4 md:px-96 rich-text-content">
+          <div className="container mx-auto mt-4 md:px-56 rich-text-content">
             <RichText data={berita.content} />
           </div>
         </div>
