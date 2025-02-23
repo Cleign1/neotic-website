@@ -64,16 +64,15 @@ export async function generateStaticParams() {
   }));
 }
 
-interface Args {
+interface PageProps {
   params: {
     slug: string;
   };
 }
 
-export default async function BeritaPage({
-  params,
-}: Args): Promise<JSX.Element> {
-  const  { slug } = await params;
+export default async function BeritaPage(props: PageProps): Promise<JSX.Element> {
+
+  const { slug } = (props.params as unknown) as { slug: string };
 
   // Fetch the post using the slug
   const berita = await fetchBeritaBySlug(slug);
