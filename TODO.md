@@ -9,6 +9,6 @@
 - [x] buat yang richtext itu responsive
 - [x] tambahin contact us message jadi bisa muncul ke cms
 - [x] revalidate contact us message form using zod
-- [ ] buat functional search button - on progress, masih css dan styling
+- [x] buat functional search button - on progress, masih css dan styling
 - [ ] test vercel deployment
 - [ ] refactor code and comment for better understanding
