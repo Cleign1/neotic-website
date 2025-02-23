@@ -10,6 +10,9 @@ export const KontenBerita: CollectionConfig = {
     singular: "Konten Berita Page",
     plural: "Konten Berita Pages",
   },
+  access: {
+    read: () => true,
+  },
   admin: {
     defaultColumns: ["judul", "slug", "publishedAt", "updatedAt"],
     // untuk future use
