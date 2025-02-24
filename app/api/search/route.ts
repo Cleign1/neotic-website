@@ -6,11 +6,19 @@ import configPromise from "@payload-config";
 interface RichTextNode {
   text?: string;
   children?: RichTextNode[];
+  type?: string;
+  version?: number;
+  [key: string]: unknown;
 }
 
 interface RichTextData {
   root: {
     children: RichTextNode[];
+    type: string;
+    direction?: 'ltr' | 'rtl' | null;
+    format?: '' | 'left' | 'start' | 'center' | 'right' | 'end' | 'justify';
+    indent?: number;
+    version?: number;
   };
 }
 
