@@ -1,11 +1,14 @@
-import { JSX } from "react/jsx-runtime";
+// import { JSX } from "react/jsx-runtime";
+import { getPayload } from "payload";
+import configPromise from "@payload-config";
 import Link from "next/link";
 import Image from "next/image";
 import { RichText } from "@payloadcms/richtext-lexical/react";
 import { SerializedEditorState } from "@payloadcms/richtext-lexical/lexical";
 import NotFound from "../../[...notFound]/page";
+import type { KontenBerita } from "@/payload-types";
 
-interface BeritaPage {
+interface BeritaPageProps {
   id: string;
   title: string;
   imageSrc: string;
@@ -13,78 +16,83 @@ interface BeritaPage {
   slug: string;
 }
 
-// Helper function to get the base URL dynamically
-function getBaseUrl() {
-  // Use Vercel's environment variables if available
-  if (process.env.VERCEL_URL) {
-    return `https://${process.env.VERCEL_URL}`;
-  }
-  // Fallback to local development URL
-  return "http://localhost";
-}
-
-async function fetchBeritaBySlug(slug: string): Promise<BeritaPage | null> {
+async function fetchBeritaBySlug(
+  slug: string
+): Promise<BeritaPageProps | null> {
   try {
-    const baseUrl = getBaseUrl();
-    const apiUrl = `${baseUrl}/api/konten-berita?where[slug][equals]=${slug}&limit=1`;
-    const response = await fetch(apiUrl, {
-      next: { revalidate: 3600 } // Optional: Add revalidation if needed
+    const payload = await getPayload({ config: configPromise });
+
+    const result = await payload.find({
+      collection: "konten-berita",
+      where: {
+        slug: {
+          equals: slug,
+        },
+      },
+      limit: 1,
     });
 
-    if (!response.ok) throw new Error("Failed to fetch berita");
-    
-    const data = await response.json();
-    if (data.docs.length === 0) return null;
+    if (result.docs.length === 0) {
+      return null;
+    }
 
-    const doc = data.docs[0];
+    const doc = result.docs[0] as KontenBerita;
     return {
-      id: doc.id,
+      id: doc.id.toString(),
       title: doc.judul,
-      imageSrc: doc.gambar?.url || "",
-      content: doc.konten,
-      slug: doc.slug
+      imageSrc:
+        typeof doc.gambar === "object" && "url" in doc.gambar
+          ? doc.gambar.url || ""
+          : "",
+      content: doc.konten as SerializedEditorState,
+      slug: doc.slug as string,
     };
   } catch (error) {
-    console.error("Error fetching data from API:", error);
+    console.error("Error fetching data from Payload CMS:", error);
     return null;
   }
 }
 
 export async function generateStaticParams() {
-  try {
-    const baseUrl = getBaseUrl();
-    const apiUrl = `${baseUrl}/api/konten-berita?limit=0`;
-    const response = await fetch(apiUrl);
-    
-    if (!response.ok) return [];
-    
-    const data = await response.json();
-    return data.docs.map((doc: BeritaPage) => ({ slug: doc.slug }));
-  } catch (error) {
-    console.error("Error generating static params:", error);
-    return [];
-  }
+  const payload = await getPayload({ config: configPromise });
+
+  const result = await payload.find({
+    collection: "konten-berita",
+    pagination: false,
+  });
+
+  return result.docs.map((doc: KontenBerita) => ({
+    params: {
+      slug: doc.slug,
+    },
+  }));
 }
 
-export default async function BeritaPage({
+export default async function BeritaSlug({
   params,
 }: {
-  params: { slug: string };
-}): Promise<JSX.Element> {
-  const { slug } = params;
+  params: Promise<{ slug: string }>;
+}) {
+  const slug = (await params).slug;
+
   const berita = await fetchBeritaBySlug(slug);
 
-  if (!berita) return <NotFound />;
+  if (!berita) {
+    return <NotFound />;
+  }
 
   return (
-    <div className="min-h-screen">
-      <div className="bg-blue-210 text-center font-semibold mt-10 p-4">
+    // header berita
+    <div className="my-10 min-h-screen">
+      <div className="bg-blue-210 text-center font-semibold p-4">
         <Link href="/berita">
           <h1 className="text-2xl md:text-3xl">Berita</h1>
         </Link>
       </div>
-      <div className="bg-blue-210 p-4 md:p-8 mt-10 mb-10">
-        <div className="container mx-auto py-10 md:py-20">
+
+      {/* Isi dari Kontent Berita */}
+      <div className="bg-blue-210 p-4 md:p-8 mt-10 mb-10 ">
+        <div className="container mx-auto  py-10 md:py-20">
           <Image
             src={berita.imageSrc}
             alt={berita.title}
@@ -95,7 +103,7 @@ export default async function BeritaPage({
           <h1 className="mt-4 text-xl md:text-2xl font-semibold p-4 md:p-6 text-center">
             {berita.title}
           </h1>
-          <div className="container mx-auto mt-4 md:px-56 rich-text-content">
+          <div className="container mx-auto mt-4 md:px-96 rich-text-content">
             <RichText data={berita.content} />
           </div>
         </div>
