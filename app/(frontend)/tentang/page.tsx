@@ -1,12 +1,12 @@
 import { JSX } from "react/jsx-runtime";
-// import { AboutPage } from "@/payload-types";
+import { AboutPage } from "@/payload-types"; 
 import { getPayload } from "payload";
 import configPromise from "@payload-config";
 import { RichText } from "@payloadcms/richtext-lexical/react";
 import { SerializedEditorState } from "lexical";
 // import RichText from "@/app/components/RichText";
 
-type AboutPage = {
+type AboutPageProps = {
   id: string;
   updatedAt: string;
   createdAt: string;
@@ -17,7 +17,7 @@ type AboutPage = {
   ourMission: SerializedEditorState; // Assuming richText is returned as a string or HTML
 }
 
-async function getAboutPage(): Promise<AboutPage> {
+async function getAboutPage(): Promise<AboutPageProps> {
   try {
     const payload = await getPayload({ config: configPromise });
     const result = await payload.find({
@@ -30,11 +30,11 @@ async function getAboutPage(): Promise<AboutPage> {
       id: String(doc.id), // Convert number to string
       updatedAt: doc.updatedAt,
       createdAt: doc.createdAt,
-      ourPhilosophy: doc.ourPhilosophy || "No philosophy available",
-      whoWeAre: doc.whoWeAre || "No information available",
-      whatWeDo: doc.whatWeDo || "No information available",
-      ourVision: doc.ourVision || "No vision available",
-      ourMission: doc.ourMission || "No mission available",
+      ourPhilosophy: doc.ourPhilosophy as SerializedEditorState,
+      whoWeAre: doc.whoWeAre as SerializedEditorState,
+      whatWeDo: doc.whatWeDo as SerializedEditorState,
+      ourVision: doc.ourVision as SerializedEditorState,
+      ourMission: doc.ourMission as SerializedEditorState,
     }));
 
     return docs[0];

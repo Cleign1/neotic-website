@@ -1,4 +1,3 @@
-import { JSX } from "react/jsx-runtime";
 import { getPayload } from "payload";
 import configPromise from "@payload-config";
 import Link from "next/link";
@@ -67,16 +66,13 @@ export async function generateStaticParams() {
     }));
 }
 
-interface Args {
-    params: {
-        slug: string;
-    };
-}
 
-export default async function PortofolioSlug({ params }: Args): Promise<JSX.Element> {
-    const { slug } = await params;
+export default async function PortofolioSlug(props: {
+    params: Promise<{ slug: string }>;
+  }) {
+    const params = await props.params;
 
-    const portofolio = await fetchPortofolioBySlug(slug);
+    const portofolio = await fetchPortofolioBySlug(params.slug);
 
     if (!portofolio) {
         return (

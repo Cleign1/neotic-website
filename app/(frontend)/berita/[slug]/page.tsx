@@ -1,22 +1,24 @@
-import { JSX } from "react/jsx-runtime";
+// import { JSX } from "react/jsx-runtime";
 import { getPayload } from "payload";
 import configPromise from "@payload-config";
 import Link from "next/link";
 import Image from "next/image";
-import { KontenBerita } from "@/payload-types"; // Adjust the import path as needed
 import { RichText } from "@payloadcms/richtext-lexical/react";
 import { SerializedEditorState } from "@payloadcms/richtext-lexical/lexical";
 import NotFound from "../../[...notFound]/page";
+import type { KontenBerita } from "@/payload-types";
 
-interface BeritaPage {
+interface BeritaPageProps {
   id: string;
   title: string;
   imageSrc: string;
-  content: SerializedEditorState; // Lexical JSON structure
+  content: SerializedEditorState;
   slug: string;
 }
 
-async function fetchBeritaBySlug(slug: string): Promise<BeritaPage | null> {
+async function fetchBeritaBySlug(
+  slug: string
+): Promise<BeritaPageProps | null> {
   try {
     const payload = await getPayload({ config: configPromise });
 
@@ -43,7 +45,7 @@ async function fetchBeritaBySlug(slug: string): Promise<BeritaPage | null> {
           ? doc.gambar.url || ""
           : "",
       content: doc.konten as SerializedEditorState,
-      slug: doc.slug,
+      slug: doc.slug || "",
     };
   } catch (error) {
     console.error("Error fetching data from Payload CMS:", error);
@@ -60,38 +62,35 @@ export async function generateStaticParams() {
   });
 
   return result.docs.map((doc: KontenBerita) => ({
-    slug: doc.slug,
+    params: {
+      slug: doc.slug,
+    },
   }));
 }
 
-interface PageProps {
-  params: {
-    slug: string;
-  };
-}
+export default async function BeritaSlug(props: {
+  params: Promise<{ slug: string }>;
+}) {
+  const params = await props.params;
 
-export default async function BeritaPage(props: PageProps): Promise<JSX.Element> {
-
-  const { slug } = (props.params as unknown) as { slug: string };
-
-  // Fetch the post using the slug
-  const berita = await fetchBeritaBySlug(slug);
+  const berita = await fetchBeritaBySlug(params.slug);
 
   if (!berita) {
-    return (
-      <NotFound />
-  );
+    return <NotFound />;
   }
 
   return (
-    <div className="min-h-screen">
-      <div className="bg-blue-210 text-center font-semibold mt-10 p-4">
+    // header berita
+    <div className="my-10 min-h-screen">
+      <div className="bg-blue-210 text-center font-semibold p-4">
         <Link href="/berita">
           <h1 className="text-2xl md:text-3xl">Berita</h1>
         </Link>
       </div>
-      <div className="bg-blue-210 p-4 md:p-8 mt-10 mb-10">
-        <div className="container mx-auto py-10 md:py-20">
+
+      {/* Isi dari Kontent Berita */}
+      <div className="bg-blue-210 p-4 md:p-8 mt-10 mb-10 ">
+        <div className="container mx-auto  py-10 md:py-20">
           <Image
             src={berita.imageSrc}
             alt={berita.title}
@@ -99,8 +98,10 @@ export default async function BeritaPage(props: PageProps): Promise<JSX.Element>
             height={300}
             className="rounded-xl mx-auto w-full max-w-[300px]"
           />
-          <h1 className="mt-4 text-xl md:text-2xl font-semibold p-4 md:p-6 text-center">{berita.title}</h1>
-          <div className="container mx-auto mt-4 md:px-56 rich-text-content">
+          <h1 className="mt-4 text-xl md:text-2xl font-semibold p-4 md:p-6 text-center">
+            {berita.title}
+          </h1>
+          <div className="container mx-auto mt-4 md:px-96 rich-text-content">
             <RichText data={berita.content} />
           </div>
         </div>
