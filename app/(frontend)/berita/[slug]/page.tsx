@@ -1,9 +1,6 @@
 import { JSX } from "react/jsx-runtime";
-import { getPayload } from "payload";
-import configPromise from "@payload-config";
 import Link from "next/link";
 import Image from "next/image";
-import { KontenBerita } from "@/payload-types"; // Adjust the import path as needed
 import { RichText } from "@payloadcms/richtext-lexical/react";
 import { SerializedEditorState } from "@payloadcms/richtext-lexical/lexical";
 import NotFound from "../../[...notFound]/page";
@@ -12,76 +9,72 @@ interface BeritaPage {
   id: string;
   title: string;
   imageSrc: string;
-  content: SerializedEditorState; // Lexical JSON structure
+  content: SerializedEditorState;
   slug: string;
+}
+
+// Helper function to get the base URL dynamically
+function getBaseUrl() {
+  // Use Vercel's environment variables if available
+  if (process.env.VERCEL_URL) {
+    return `https://${process.env.VERCEL_URL}`;
+  }
+  // Fallback to local development URL
+  return "http://localhost";
 }
 
 async function fetchBeritaBySlug(slug: string): Promise<BeritaPage | null> {
   try {
-    const payload = await getPayload({ config: configPromise });
-
-    const result = await payload.find({
-      collection: "konten-berita",
-      where: {
-        slug: {
-          equals: slug,
-        },
-      },
-      limit: 1,
+    const baseUrl = getBaseUrl();
+    const apiUrl = `${baseUrl}/api/konten-berita?where[slug][equals]=${slug}&limit=1`;
+    const response = await fetch(apiUrl, {
+      next: { revalidate: 3600 } // Optional: Add revalidation if needed
     });
 
-    if (result.docs.length === 0) {
-      return null;
-    }
+    if (!response.ok) throw new Error("Failed to fetch berita");
+    
+    const data = await response.json();
+    if (data.docs.length === 0) return null;
 
-    const doc = result.docs[0] as KontenBerita;
+    const doc = data.docs[0];
     return {
-      id: doc.id.toString(),
+      id: doc.id,
       title: doc.judul,
-      imageSrc:
-        typeof doc.gambar === "object" && "url" in doc.gambar
-          ? doc.gambar.url || ""
-          : "",
-      content: doc.konten as SerializedEditorState,
-      slug: doc.slug,
+      imageSrc: doc.gambar?.url || "",
+      content: doc.konten,
+      slug: doc.slug
     };
   } catch (error) {
-    console.error("Error fetching data from Payload CMS:", error);
+    console.error("Error fetching data from API:", error);
     return null;
   }
 }
 
 export async function generateStaticParams() {
-  const payload = await getPayload({ config: configPromise });
-
-  const result = await payload.find({
-    collection: "konten-berita",
-    pagination: false,
-  });
-
-  return result.docs.map((doc: KontenBerita) => ({
-    slug: doc.slug,
-  }));
+  try {
+    const baseUrl = getBaseUrl();
+    const apiUrl = `${baseUrl}/api/konten-berita?limit=0`;
+    const response = await fetch(apiUrl);
+    
+    if (!response.ok) return [];
+    
+    const data = await response.json();
+    return data.docs.map((doc: BeritaPage) => ({ slug: doc.slug }));
+  } catch (error) {
+    console.error("Error generating static params:", error);
+    return [];
+  }
 }
 
-interface PageProps {
-  params: {
-    slug: string;
-  };
-}
-
-export default async function BeritaPage(props: PageProps): Promise<JSX.Element> {
-
-  const { slug } = (props.params as unknown) as { slug: string };
-
-  // Fetch the post using the slug
+export default async function BeritaPage({
+  params,
+}: {
+  params: { slug: string };
+}): Promise<JSX.Element> {
+  const { slug } = params;
   const berita = await fetchBeritaBySlug(slug);
 
-  if (!berita) {
-    return (
-      <NotFound />
-  );
-  }
+  if (!berita) return <NotFound />;
 
   return (
     <div className="min-h-screen">
@@ -99,7 +92,9 @@ export default async function BeritaPage(props: PageProps): Promise<JSX.Element>
             height={300}
             className="rounded-xl mx-auto w-full max-w-[300px]"
           />
-          <h1 className="mt-4 text-xl md:text-2xl font-semibold p-4 md:p-6 text-center">{berita.title}</h1>
+          <h1 className="mt-4 text-xl md:text-2xl font-semibold p-4 md:p-6 text-center">
+            {berita.title}
+          </h1>
           <div className="container mx-auto mt-4 md:px-56 rich-text-content">
             <RichText data={berita.content} />
           </div>
