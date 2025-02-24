@@ -45,7 +45,7 @@ async function fetchBeritaBySlug(
           ? doc.gambar.url || ""
           : "",
       content: doc.konten as SerializedEditorState,
-      slug: doc.slug as string,
+      slug: doc.slug || "",
     };
   } catch (error) {
     console.error("Error fetching data from Payload CMS:", error);
@@ -68,14 +68,12 @@ export async function generateStaticParams() {
   }));
 }
 
-export default async function BeritaSlug({
-  params,
-}: {
+export default async function BeritaSlug(props: {
   params: Promise<{ slug: string }>;
 }) {
-  const slug = (await params).slug;
+  const params = await props.params;
 
-  const berita = await fetchBeritaBySlug(slug);
+  const berita = await fetchBeritaBySlug(params.slug);
 
   if (!berita) {
     return <NotFound />;
