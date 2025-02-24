@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { getPayload } from "payload";
 import configPromise from "@payload-config";
-import type { PortofolioPage } from "@/payload-types"; // Adjust the import path as needed
+import type { PortofolioPage, PortofolioTop } from "@/payload-types"; // Adjust the import path as needed
 import React from "react";
 
 interface PortoContent {
