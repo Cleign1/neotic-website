@@ -4,8 +4,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
-// import Script from "next/script";
-import { useActionState } from "react"; // Update import to use useActionState from React
+import { useTransition } from "react";
+import ReCAPTCHA from "react-google-recaptcha";
+import { useRef, useState } from "react";
 
 // Define the Zod schema
 const formSchema = z.object({
@@ -37,31 +38,34 @@ export type FormState = {
   message: string;
 };
 
-const initialState: FormState = {
-  success: false,
-  error: false,
-  message: "",
-};
-
-// Define the server action (mock implementation)
-async function submitForm(prevState: FormState, formData: FormData): Promise<FormState> {
+// Define the server action
+async function submitForm(formData: FormData, recaptchaToken: string | null): Promise<FormState> {
   try {
+    if (!recaptchaToken) {
+      return { 
+        success: false, 
+        error: true, 
+        message: "reCAPTCHA verification required" 
+      };
+    }
+
     // Map form data to API schema
     const apiData = {
-      name: formData.fullname, // Map "fullname" to "name"
+      name: formData.fullname,
       email: formData.email,
       phone: formData.phone,
       messageTitle: formData.messageTitle,
       message: formData.message,
+      recaptchaToken: recaptchaToken,
     };
 
-    const req = await fetch("/api/messages", {
+    // Send to the new endpoint
+    const req = await fetch("/api/sendMessage", {
       method: "POST",
-      credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(apiData), // Send mapped data
+      body: JSON.stringify(apiData),
     });
 
     if (!req.ok) {
@@ -73,10 +77,14 @@ async function submitForm(prevState: FormState, formData: FormData): Promise<For
     if (res.message === "Message successfully created.") {
       return { success: true, error: false, message: "Pesan berhasil dikirim" };
     } else {
-      return { success: false, error: true, message: res.message || "Pesan gagal dikirim" };
+      return { 
+        success: false, 
+        error: true, 
+        message: res.message || "Pesan gagal dikirim" 
+      };
     }
   } catch (error) {
-    console.log("Error sending message:", error);
+    console.error("Error sending message:", error);
     return { success: false, error: true, message: "Pesan gagal dikirim" };
   }
 }
@@ -88,21 +96,55 @@ export default function MessageForm() {
     reset,
     formState: { errors },
   } = useForm<FormData>({
-    resolver: zodResolver(formSchema), // Integrate Zod validation
+    resolver: zodResolver(formSchema),
   });
 
-  // Update to use useActionState instead of useFormState
-  const [state, formAction] = useActionState(submitForm, initialState);
+  // Use useTransition for async operations
+  const [isPending, startTransition] = useTransition();
+  
+  // Form state
+  const [formState, setFormState] = useState<FormState>({
+    success: false,
+    error: false,
+    message: "",
+  });
+
+  // Reference to reCAPTCHA component
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
+  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
+  const [recaptchaError, setRecaptchaError] = useState<string | null>(null);
+
+  // Handle reCAPTCHA change
+  const onReCAPTCHAChange = (token: string | null) => {
+    setRecaptchaToken(token);
+    if (token) {
+      setRecaptchaError(null);
+    }
+  };
 
   // Handle form submission
-  const onSubmit = async (data: FormData) => {
-    await formAction(data); // Pass form data to the server action
-    if (state.success) {
-      toast.success(state.message);
-      reset();
-    } else if (state.error) {
-      toast.error(state.message);
+  const onSubmit = (data: FormData) => {
+    // Check if reCAPTCHA is completed
+    if (!recaptchaToken) {
+      setRecaptchaError("Mohon selesaikan verifikasi reCAPTCHA");
+      return;
     }
+
+    // Use startTransition for async operations
+    startTransition(async () => {
+      const result = await submitForm(data, recaptchaToken);
+      setFormState(result);
+      
+      if (result.success) {
+        toast.success(result.message);
+        reset();
+        // Reset reCAPTCHA
+        recaptchaRef.current?.reset();
+        setRecaptchaToken(null);
+      } else if (result.error) {
+        toast.error(result.message);
+      }
+    });
   };
 
   return (
@@ -116,6 +158,7 @@ export default function MessageForm() {
             {...register("fullname")}
             placeholder="Nama Lengkap"
             className="w-full bg-gray-100 border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            disabled={isPending}
           />
           {errors.fullname && (
             <p className="text-red-500 text-sm mt-1">
@@ -132,6 +175,7 @@ export default function MessageForm() {
             {...register("email")}
             placeholder="Email"
             className="w-full bg-gray-100 border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            disabled={isPending}
           />
           {errors.email && (
             <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
@@ -146,6 +190,7 @@ export default function MessageForm() {
             {...register("phone")}
             placeholder="Nomor Telepon"
             className="w-full bg-gray-100 border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            disabled={isPending}
           />
           {errors.phone && (
             <p className="text-red-500 text-sm mt-1">{errors.phone.message}</p>
@@ -160,6 +205,7 @@ export default function MessageForm() {
             {...register("messageTitle")}
             placeholder="Judul Pesan"
             className="w-full bg-gray-100 border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            disabled={isPending}
           />
           {errors.messageTitle && (
             <p className="text-red-500 text-sm mt-1">
@@ -176,6 +222,7 @@ export default function MessageForm() {
             placeholder="Pesan"
             rows={4}
             className="w-full bg-gray-100 border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            disabled={isPending}
           />
           {errors.message && (
             <p className="text-red-500 text-sm mt-1">
@@ -184,22 +231,25 @@ export default function MessageForm() {
           )}
         </div>
 
-        {/* Cloudflare Turnstile */}
-        {/* <>
-          <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer />
-          <div
-            className="cf-turnstile"
-            data-sitekey={process.env.NEXT_PUBLIC_CLOUDFLARE_TURNSTILE_SITE_KEY}
-            data-callback="javascriptCallback"
-          ></div>
-        </> */}
+        {/* Google reCAPTCHA */}
+        <div className="flex flex-col items-start">
+          <ReCAPTCHA
+            ref={recaptchaRef}
+            sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ""}
+            onChange={onReCAPTCHAChange}
+          />
+          {recaptchaError && (
+            <p className="text-red-500 text-sm mt-1">{recaptchaError}</p>
+          )}
+        </div>
 
         {/* Submit Button */}
         <button
           type="submit"
-          className="bg-blue-600 text-white rounded-md py-3 px-6 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer"
+          className="bg-blue-600 text-white rounded-md py-3 px-6 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer disabled:bg-gray-400"
+          disabled={isPending}
         >
-          Kirim
+          {isPending ? "Mengirim..." : "Kirim"}
         </button>
       </form>
     </div>
