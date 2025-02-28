@@ -6,6 +6,8 @@ import { JSX } from "react/jsx-runtime";
 import configPromise from "@payload-config";
 import { getPayload } from "payload";
 import CreateMessage from "../components/CreateMessage";
+// import { revalidateTag } from 'next/cache';
+
 
 interface Section {
   type: "Portofolio" | "Berita";
@@ -19,6 +21,9 @@ interface Section {
 async function fetchSections(): Promise<Section[]> {
   try {
     const payload = await getPayload({ config: configPromise });
+
+    // revalidateTag('konten-berita');
+    // revalidateTag('portofolioPage');
 
     const beritaResult = await payload.find({
       collection: "konten-berita",
@@ -64,6 +69,9 @@ async function fetchSections(): Promise<Section[]> {
     return [];
   }
 }
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0; // This disables cache and forces dynamic rendering
 
 export default async function Home(): Promise<JSX.Element> {
   const Sections = await fetchSections();
