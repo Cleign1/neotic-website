@@ -3,6 +3,10 @@ import { CollectionConfig } from "payload";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
 // to be used in the future
 // import { generatePreviewPath } from "@/lib/generatePreviewPath";
+import { 
+  revalidateBerita, 
+  revalidateBeritaDelete,
+} from '@/app/hooks/revalidate'
 
 export const KontenBerita: CollectionConfig = {
   slug: "konten-berita",
@@ -94,6 +98,8 @@ export const KontenBerita: CollectionConfig = {
         return data;
       },
     ],
+    afterChange: [revalidateBerita],
+    afterDelete: [revalidateBeritaDelete],
   },
 };
 
