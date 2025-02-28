@@ -1,36 +1,70 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Getting Started
 
-## Getting Started
+Project ini dibuat untuk memenuhi tugas mata kuliah Pengenalan Proyek Perangkat Lunak
 
-First, run the development server:
+Project ini dibuat oleh Kelompok 5 P3L.
+
+Penanggung jawab development phase:
+
+- Muhamad Ibnu Khaidar Hafiz
+
+## Spesifikasi Project
+
+- Next.js v15.1.7
+- Payload CMS v3.2.0
+- TypeScript v4.5.4
+- React v19
+- TailwindCSS v4.0.0
+- PostgreSQL v17 via [neon.tech PostgreSQL](https://neon.tech)
+- Cloudflare R2 CDN via AWS S3 Compatible SDK. [Cloudflare R2](https://www.cloudflare.com/developer-platform/products/r2/)
+- Node.js v22.0.0
+- ESLint & Prettier for code quality
+
+## Instalation
+
+### Copy file example.env jadi .env
+
+bikin copy file baru dari example.env jadi .env
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+cp example.env .env
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+isikan dengan data yang sesuai
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+contoh:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- DATABASE_URI=your-connection-string-here
 
-## Learn More
+jadi seperti ini:
 
-To learn more about Next.js, take a look at the following resources:
+- DATABASE_URI=postgresql://localhost:27017/your-database-name
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Install dependencies
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+install dengan pnpm
 
-## Deploy on Vercel
+```bash
+pnpm install
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+setelah di install, build project dengan
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+pnpm build
+```
+
+tunggu sebentar untuk proses build
+
+setelah itu bisa di jalankan dengan
+
+```bash
+pnpm start
+```
+
+atau bisa di deploy ke vercel.
+
+jika ada pertanyaan bisa langsung hubungi saya di
+
+- email: <ibnukhaidar@gmail.com>
+- whatsapp: +6285715509473
