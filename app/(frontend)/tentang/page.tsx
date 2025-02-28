@@ -45,6 +45,9 @@ async function getAboutPage(): Promise<AboutPageProps> {
   }
 }
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0; // This disables cache and forces dynamic rendering
+
 export default async function AboutUs(): Promise<JSX.Element> {
   const aboutPageData = await getAboutPage();
 
