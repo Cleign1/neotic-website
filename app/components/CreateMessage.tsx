@@ -103,11 +103,11 @@ export default function MessageForm() {
   const [isPending, startTransition] = useTransition();
   
   // Form state
-  const [formState, setFormState] = useState<FormState>({
-    success: false,
-    error: false,
-    message: "",
-  });
+  // const [formState, setFormState] = useState<FormState>({
+  //   success: false,
+  //   error: false,
+  //   message: "",
+  // });
 
   // Reference to reCAPTCHA component
   const recaptchaRef = useRef<ReCAPTCHA>(null);
@@ -133,7 +133,7 @@ export default function MessageForm() {
     // Use startTransition for async operations
     startTransition(async () => {
       const result = await submitForm(data, recaptchaToken);
-      setFormState(result);
+      // setFormState(result);
       
       if (result.success) {
         toast.success(result.message);
