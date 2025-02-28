@@ -4,6 +4,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
+// import Script from "next/script";
+import { useActionState } from "react"; // Update import to use useActionState from React
 
 // Define the Zod schema
 const formSchema = z.object({
@@ -29,6 +31,56 @@ const formSchema = z.object({
 // Infer the type from the Zod schema
 type FormData = z.infer<typeof formSchema>;
 
+export type FormState = {
+  success: boolean;
+  error: boolean;
+  message: string;
+};
+
+const initialState: FormState = {
+  success: false,
+  error: false,
+  message: "",
+};
+
+// Define the server action (mock implementation)
+async function submitForm(prevState: FormState, formData: FormData): Promise<FormState> {
+  try {
+    // Map form data to API schema
+    const apiData = {
+      name: formData.fullname, // Map "fullname" to "name"
+      email: formData.email,
+      phone: formData.phone,
+      messageTitle: formData.messageTitle,
+      message: formData.message,
+    };
+
+    const req = await fetch("/api/messages", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(apiData), // Send mapped data
+    });
+
+    if (!req.ok) {
+      throw new Error(`HTTP error! status: ${req.status}`);
+    }
+
+    const res = await req.json();
+
+    if (res.message === "Message successfully created.") {
+      return { success: true, error: false, message: "Pesan berhasil dikirim" };
+    } else {
+      return { success: false, error: true, message: res.message || "Pesan gagal dikirim" };
+    }
+  } catch (error) {
+    console.log("Error sending message:", error);
+    return { success: false, error: true, message: "Pesan gagal dikirim" };
+  }
+}
+
 export default function MessageForm() {
   const {
     register,
@@ -39,42 +91,17 @@ export default function MessageForm() {
     resolver: zodResolver(formSchema), // Integrate Zod validation
   });
 
+  // Update to use useActionState instead of useFormState
+  const [state, formAction] = useActionState(submitForm, initialState);
+
   // Handle form submission
   const onSubmit = async (data: FormData) => {
-    try {
-      // Map form data to API schema
-      const apiData = {
-        name: data.fullname, // Map "fullname" to "name"
-        email: data.email,
-        phone: data.phone,
-        messageTitle: data.messageTitle,
-        message: data.message,
-      };
-
-      const req = await fetch("/api/messages", {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(apiData), // Send mapped data
-      });
-
-      if (!req.ok) {
-        throw new Error(`HTTP error! status: ${req.status}`);
-      }
-
-      const res = await req.json();
-
-      if (res.message === "Message successfully created.") {
-        toast.success("Pesan berhasil dikirim");
-        reset();
-      } else {
-        toast.error(res.message || "Pesan gagal dikirim");
-      }
-    } catch (error) {
-      console.log("Error sending message:", error);
-      toast.error("Pesan gagal dikirim");
+    await formAction(data); // Pass form data to the server action
+    if (state.success) {
+      toast.success(state.message);
+      reset();
+    } else if (state.error) {
+      toast.error(state.message);
     }
   };
 
@@ -156,6 +183,16 @@ export default function MessageForm() {
             </p>
           )}
         </div>
+
+        {/* Cloudflare Turnstile */}
+        {/* <>
+          <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer />
+          <div
+            className="cf-turnstile"
+            data-sitekey={process.env.NEXT_PUBLIC_CLOUDFLARE_TURNSTILE_SITE_KEY}
+            data-callback="javascriptCallback"
+          ></div>
+        </> */}
 
         {/* Submit Button */}
         <button
