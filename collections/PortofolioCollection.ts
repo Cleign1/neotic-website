@@ -2,12 +2,20 @@
 import { CollectionConfig } from "payload";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
 // import { generatePreviewPath } from "@/lib/generatePreviewPath";
+import { 
+  revalidatePortofolio, 
+  revalidatePortofolioDelete 
+} from '@/app/hooks/revalidate'
 
 export const PortfolioCollection: CollectionConfig = {
   slug: "portofolioPage",
   labels: {
     singular: "Postingan Portofolio",
     plural: "Postingan Portofolio",
+  },
+  hooks: {
+    afterChange: [revalidatePortofolio],
+    afterDelete: [revalidatePortofolioDelete],
   },
   admin: {
     defaultColumns: ["title", "slug", "publishedAt", "updatedAt"],
