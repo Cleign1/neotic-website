@@ -70,6 +70,9 @@ async function fetchPortoTop(): Promise<PortoTop[]> {
   }
 }
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0; // This disables cache and forces dynamic rendering
+
 export default async function PortofolioPage(): Promise<JSX.Element> {
   const portoContents = await fetchPortoContents();
   const portoTopData = await fetchPortoTop();
