@@ -4,6 +4,8 @@ import { getPayload } from "payload";
 import configPromise from '@payload-config';
 import Link from "next/link";
 import { KontenBerita } from "@/payload-types";
+// import { revalidateTag } from 'next/cache';
+
 
 interface BeritaContent {
   id: string;
@@ -16,6 +18,8 @@ interface BeritaContent {
 async function fetchBeritaContents(): Promise<BeritaContent[]> {
   try {
     const payload = await getPayload({ config: configPromise });
+
+    // revalidateTag('konten-berita');
 
     // Fetch data from Payload CMS
     const result = await payload.find({
@@ -36,6 +40,10 @@ async function fetchBeritaContents(): Promise<BeritaContent[]> {
     return []; // Return an empty array on error
   }
 }
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0; // This disables cache and forces dynamic rendering
+
 
 export default async function BeritaPage(): Promise<JSX.Element> {
   const beritaContents = await fetchBeritaContents();
