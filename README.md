@@ -67,4 +67,3 @@ atau bisa di deploy ke vercel.
 jika ada pertanyaan bisa langsung hubungi saya di
 
 - email: <ibnukhaidar@gmail.com>
-- whatsapp: +6285715509473
