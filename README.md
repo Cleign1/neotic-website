@@ -1,5 +1,9 @@
 # Getting Started
 
+## Database prerequisite for the security update
+
+Before deploying Payload 3.90.2 over an existing 3.24.0 PostgreSQL database, follow [the backup, staging and migration procedure](docs/payload-upgrade.md). Production does not automatically push the new authentication/storage schema. Run `NODE_ENV=production pnpm migrate` only after validating the documented prerequisites.
+
 Project ini dibuat untuk memenuhi tugas mata kuliah Pengenalan Proyek Perangkat Lunak
 
 Project ini dibuat oleh Kelompok 5 P3L.
