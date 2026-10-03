@@ -18,7 +18,7 @@ export const revalidateBerita: CollectionAfterChangeHook = ({
   }
   
   // Add a tag for berita collection
-  revalidateTag('berita')
+  revalidateTag('berita', { expire: 0 })
   
   return doc
 }
@@ -40,7 +40,7 @@ export const revalidatePortofolio: CollectionAfterChangeHook = ({
   }
   
   // Add a tag for portfolio collection
-  revalidateTag('portofolio')
+  revalidateTag('portofolio', { expire: 0 })
   
   return doc
 }
@@ -52,7 +52,7 @@ export const revalidateBeritaDelete: CollectionAfterDeleteHook = ({
   payload.logger.info('Revalidating after berita deletion')
   revalidatePath('/')
   revalidatePath('/berita')
-  revalidateTag('berita')
+  revalidateTag('berita', { expire: 0 })
   return doc
 }
 
@@ -63,6 +63,6 @@ export const revalidatePortofolioDelete: CollectionAfterDeleteHook = ({
   payload.logger.info('Revalidating after portfolio deletion')
   revalidatePath('/')
   revalidatePath('/portofolio')
-  revalidateTag('portofolio')
+  revalidateTag('portofolio', { expire: 0 })
   return doc
 }

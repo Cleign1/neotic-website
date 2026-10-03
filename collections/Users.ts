@@ -7,6 +7,18 @@ export const Users: CollectionConfig = {
     useAsTitle: 'name',
   },
   auth: true,
+  access: {
+    // Payload's first-register operation checks for an empty collection and
+    // overrides access, so bootstrap does not require public create access.
+    create: ({ req: { user } }) => user?.role === 'admin',
+    update: ({ req: { user } }) => {
+      if (user?.role === 'admin') return true
+      if (!user) return false
+      return { id: { equals: user.id } }
+    },
+    delete: ({ req: { user } }) => user?.role === 'admin',
+    unlock: ({ req: { user } }) => user?.role === 'admin',
+  },
   fields: [
     {
       name: 'name',
@@ -26,6 +38,10 @@ export const Users: CollectionConfig = {
       label: 'Role',
       type: 'select',
       required: true,
+      access: {
+        create: ({ req: { user } }) => user?.role === 'admin',
+        update: ({ req: { user } }) => user?.role === 'admin',
+      },
       options: [
         {
           label: 'Admin',
